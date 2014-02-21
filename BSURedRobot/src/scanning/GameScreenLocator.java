@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 /**This class is capable of locating Pokemon Red on the screen. 
@@ -11,14 +12,14 @@ public class GameScreenLocator {
 
 	private static boolean isAlive;
 	
-	private static int gameWidth=640;
-	private static int gameHeight=576;
+	private static final int gameWidth=640;
+	private static final int gameHeight=576;
 
-	private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-	private static int screenWidth = (int) screenSize.getWidth();
-	private static int screenHeight = (int) screenSize.getHeight();
-	private static Point gameLocation = new Point();
-	private static boolean isGameFound=false;
+	private static Dimension screenSize;
+	private static int screenWidth;
+	private static int screenHeight;
+	private static Point gameLocation;
+	private static boolean isGameFound;
 	
 	private static int xcount=0; //used for testing algorithm efficiency
 	private static int ycount=0;
@@ -27,6 +28,14 @@ public class GameScreenLocator {
 	{
 		isAlive=true;
 		isGameFound=false;
+		
+		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenWidth = (int) screenSize.getWidth();
+		screenHeight = (int) screenSize.getHeight();
+	
+		gameLocation = new Point();
+		xcount=0;
+		ycount=0;
 	}
 	
 	public static void kill()
