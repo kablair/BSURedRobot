@@ -17,27 +17,19 @@ public class GameScreenLocator {
 	private static final int gameWidth=ScannerMain.gameWidth;
 	private static final int gameHeight=ScannerMain.gameHeight;
 
-	private static Dimension screenSize;
 	private static int screenWidth;
 	private static int screenHeight;
 	private static Point gameLocation;
 	private static boolean isGameFound;
-	
-	private static int xcount=0; //used for testing algorithm efficiency
-	private static int ycount=0;
-	
+
 	public static void initialize()
 	{
 		isAlive=true;
 		setGameFound(false);
-		
-		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		screenWidth = (int) screenSize.getWidth();
-		screenHeight = (int) screenSize.getHeight();
+		screenWidth = getScreenWidth();
+		screenHeight = getScreenHeight();
 	
 		gameLocation = new Point();
-		xcount=0;
-		ycount=0;
 	}
 	
 	public static void kill()
@@ -54,47 +46,35 @@ public class GameScreenLocator {
 		return gameLocation;
 	}
 	//works!
-	public static void findTopLeftOfGameScreen() throws GameScreenNotFoundException
+	public static Point findTopLeftOfGameScreen() throws GameScreenNotFoundException
 	{
 		Point partOfScreen =findPartOfGameScreen();
-		if(isGameFound())
-		{
-			System.out.println("found");
+		
+			System.out.println("Game pixel located");
 			Point topleft= new Point();
 			Point botright= new Point();
 			int y =findTopOfGameScreen(partOfScreen);
 			int x= findLeftOfGameScreen(partOfScreen);
 			topleft.setLocation(x, y);
-			boolean isBotRightOnScreen;
 			botright.setLocation(x+gameWidth-1, y-gameHeight+1);
 			
-			if(GameColor.isGameColor(ScreenReader.scanPixelColor(topleft)))
+			
+			//if topleft and botright are both game colors
+			if(GameColor.isGameColor(ScreenReader.scanPixelColor(topleft))
+					&& GameColor.isGameColor(ScreenReader.scanPixelColor(botright)))
 			{
-				System.out.println(topleft);
-			}
-			if(GameColor.isGameColor(ScreenReader.scanPixelColor(botright)))
-			{
-				System.out.println(botright);
-				isBotRightOnScreen=true;
+				//System.out.println(topleft);
+				//System.out.println(botright);
 				System.out.println("Entire game found");
+				gameLocation.setLocation(topleft);
+				return topleft;
 			}
 			else 
 				{
-					isBotRightOnScreen=false;
 					System.out.println("Partial game found");
 					throw new GameScreenNotFoundException("Partial game found. Game is obstructed.");
 				}
-			
-			if(isBotRightOnScreen)
-			{
-				gameLocation.setLocation(topleft);
-			}
-		}
-		else
-			System.out.println("not found");
-		
-	
-	
+
 	}
 		
 	private static int findTopOfGameScreen(Point partOfScreen)
@@ -116,7 +96,6 @@ public class GameScreenLocator {
 			{
 				highestPoint.setLocation(testPoint);
 				testPoint.setLocation(highestPoint.getX(), highestPoint.getY()+verticalStep);
-				ycount++;
 			}
 			testPoint.setLocation(highestPoint);
 			divider=divider*2;
@@ -128,7 +107,6 @@ public class GameScreenLocator {
 		{
 			highestPoint.setLocation(testPoint);
 			testPoint.setLocation(highestPoint.getX(), highestPoint.getY()+1);
-			ycount++;
 		}
 		
 		highestY= (int) (highestPoint.getY());
@@ -155,7 +133,6 @@ public class GameScreenLocator {
 				
 				leftmost.setLocation(testPoint);
 				testPoint.setLocation(leftmost.getX()-horizontalStep, leftmost.getY());
-				xcount++;
 			}
 			testPoint.setLocation(leftmost);
 			divider=divider*3;
@@ -166,9 +143,7 @@ public class GameScreenLocator {
 		{
 			leftmost.setLocation(testPoint);
 			testPoint.setLocation(leftmost.getX()-1, leftmost.getY());
-			xcount++;
 		}
-		System.out.println(xcount);
 		
 		leftmostX= (int) (leftmost.getX());
 		return leftmostX;
