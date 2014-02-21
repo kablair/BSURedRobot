@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
-/**This is the class that reads pixels from the screen. Other classes interpret the color, but this one gets it*/
-public class ColorScanner {
+/**Reads Pixels from screen, or captures images*/
+public class ScreenReader {
 
 	public static Color scanPixelColor(Point p)
 	{
@@ -38,4 +38,5 @@ public class ColorScanner {
 		return null;
 	}
 	
+
 }

@@ -19,6 +19,21 @@ public enum GameColor {
 	Color getColor() {
 		return this.color;
 	}
+	
+	/**
+	 * Sees if the color is the same color as a GameColor 
+	 */
+	public static boolean isGameColor(Color c) {
+		boolean isGameColor = false;
+
+		for (GameColor gameColor : GameColor.values()) {
+			if (c.equals(gameColor.getColor())) // don't use ==
+			{
+				isGameColor = true;
+			}
+		}
+		return isGameColor;
+	}
 
 	/**
 	 * You can use the equals method on a Color but you can not use the Color's

@@ -6,14 +6,16 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
+import exceptions.GameScreenNotFoundException;
+
 /**This class is capable of locating Pokemon Red on the screen. 
  * If the game is not on the screen or is only partially onscreen, it will display a message*/
 public class GameScreenLocator {
 
 	private static boolean isAlive;
 	
-	private static final int gameWidth=640;
-	private static final int gameHeight=576;
+	private static final int gameWidth=ScannerMain.gameWidth;
+	private static final int gameHeight=ScannerMain.gameHeight;
 
 	private static Dimension screenSize;
 	private static int screenWidth;
@@ -27,7 +29,7 @@ public class GameScreenLocator {
 	public static void initialize()
 	{
 		isAlive=true;
-		isGameFound=false;
+		setGameFound(false);
 		
 		screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		screenWidth = (int) screenSize.getWidth();
@@ -43,10 +45,6 @@ public class GameScreenLocator {
 		isAlive=false;
 	}
 
-
-	
-
-
 	private static void setGameLocation(Point location)
 	{
 		gameLocation.setLocation(location);
@@ -56,10 +54,10 @@ public class GameScreenLocator {
 		return gameLocation;
 	}
 	//works!
-	public static void findTopLeftOfGameScreen()
+	public static void findTopLeftOfGameScreen() throws GameScreenNotFoundException
 	{
 		Point partOfScreen =findPartOfGameScreen();
-		if(isGameFound)
+		if(isGameFound())
 		{
 			System.out.println("found");
 			Point topleft= new Point();
@@ -70,11 +68,11 @@ public class GameScreenLocator {
 			boolean isBotRightOnScreen;
 			botright.setLocation(x+gameWidth-1, y-gameHeight+1);
 			
-			if(ColorChecker.isGameColor(ColorScanner.scanPixelColor(topleft)))
+			if(GameColor.isGameColor(ScreenReader.scanPixelColor(topleft)))
 			{
-				//System.out.println(topleft);
+				System.out.println(topleft);
 			}
-			if(ColorChecker.isGameColor(ColorScanner.scanPixelColor(botright)))
+			if(GameColor.isGameColor(ScreenReader.scanPixelColor(botright)))
 			{
 				System.out.println(botright);
 				isBotRightOnScreen=true;
@@ -84,6 +82,7 @@ public class GameScreenLocator {
 				{
 					isBotRightOnScreen=false;
 					System.out.println("Partial game found");
+					throw new GameScreenNotFoundException("Partial game found. Game is obstructed.");
 				}
 			
 			if(isBotRightOnScreen)
@@ -113,7 +112,7 @@ public class GameScreenLocator {
 		while(verticalStep>manualSteps)
 		{
 			//while testPoint is a game color
-			while(ColorChecker.isGameColor(ColorScanner.scanPixelColor(testPoint)))
+			while(GameColor.isGameColor(ScreenReader.scanPixelColor(testPoint)))
 			{
 				highestPoint.setLocation(testPoint);
 				testPoint.setLocation(highestPoint.getX(), highestPoint.getY()+verticalStep);
@@ -125,7 +124,7 @@ public class GameScreenLocator {
 		}
 	
 		
-		while(ColorChecker.isGameColor(ColorScanner.scanPixelColor(testPoint)))
+		while(GameColor.isGameColor(ScreenReader.scanPixelColor(testPoint)))
 		{
 			highestPoint.setLocation(testPoint);
 			testPoint.setLocation(highestPoint.getX(), highestPoint.getY()+1);
@@ -151,7 +150,7 @@ public class GameScreenLocator {
 		{
 			
 			//while testPoint is a game color
-			while(ColorChecker.isGameColor(ColorScanner.scanPixelColor(testPoint)))
+			while(GameColor.isGameColor(ScreenReader.scanPixelColor(testPoint)))
 			{
 				
 				leftmost.setLocation(testPoint);
@@ -163,7 +162,7 @@ public class GameScreenLocator {
 			horizontalStep=gameWidth/divider;
 		}
 	
-		while(ColorChecker.isGameColor(ColorScanner.scanPixelColor(testPoint)))
+		while(GameColor.isGameColor(ScreenReader.scanPixelColor(testPoint)))
 		{
 			leftmost.setLocation(testPoint);
 			testPoint.setLocation(leftmost.getX()-1, leftmost.getY());
@@ -176,7 +175,7 @@ public class GameScreenLocator {
 		
 	}
 	
-		private static Point findPartOfGameScreen()
+		private static Point findPartOfGameScreen() throws GameScreenNotFoundException
 		{
 			Point p= new Point();
 			int x=0;
@@ -189,10 +188,11 @@ public class GameScreenLocator {
 				while(x<screenWidth)
 				{
 					p.setLocation(x, y);
-					Color color =ColorScanner.scanPixelColor(p);
-					if(ColorChecker.isGameColor(color))
+					Color color =ScreenReader.scanPixelColor(p);
+					System.out.println(color);
+					if(GameColor.isGameColor(color))
 					{
-						isGameFound=true;
+						setGameFound(true);
 						return p;
 					}
 					x+=horizontalStep;
@@ -202,9 +202,11 @@ public class GameScreenLocator {
 				y+=verticalStep;
 			
 			}
+			//if you get here, there is something wrong
 			p.setLocation(-1, -1);
-			isGameFound=false;
-			return p;
+			setGameFound(false);
+			throw new GameScreenNotFoundException("Game is not on screen or is obstructed");
+			
 		}
 	
 
@@ -241,8 +243,16 @@ public class GameScreenLocator {
 	public static Color findColorAtMouse()
 	{
 			Point p =getPointerLocation();
-			Color color = ColorScanner.scanPixelColor(p);
+			Color color = ScreenReader.scanPixelColor(p);
 			return color;
+	}
+
+	public static boolean isGameFound() {
+		return isGameFound;
+	}
+
+	private static void setGameFound(boolean isGameFound) {
+		GameScreenLocator.isGameFound = isGameFound;
 	}
 	
 	
