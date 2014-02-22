@@ -23,8 +23,8 @@ public class ScannerMain {
 		try {
 			gameScreenLocation=new Point();
 			OtherGameScreenLocator.initialize();
-			OtherGameScreenLocator.findGameLocation();
-			//setGameScreenLocation();
+			System.out.println(OtherGameScreenLocator.findGameLocation());
+			System.out.println(GameScreenLocator.findTopLeftOfGameScreen());//setGameScreenLocation();
 			
 		} catch (GameScreenNotFoundException e) {
 			

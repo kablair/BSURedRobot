@@ -34,6 +34,7 @@ public enum GameColor {
 		}
 		return isGameColor;
 	}
+	
 
 	/**
 	 * You can use the equals method on a Color but you can not use the Color's

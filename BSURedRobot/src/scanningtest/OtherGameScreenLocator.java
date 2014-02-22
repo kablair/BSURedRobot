@@ -38,7 +38,23 @@ public class OtherGameScreenLocator {
 	
 	public static Point findGameLocation() throws GameScreenNotFoundException
 	{
-		return findPartOfGame();
+		Point topleft = new Point();
+		Point botright= new Point();
+		Point partOfGame = findPartOfGame();
+		int y= findTopOfGameScreen(partOfGame);
+		int x= findLeftOfGameScreen(partOfGame);
+		
+		topleft.setLocation(x, y);
+		botright.setLocation(x+ScannerMain.gameWidth, y+ScannerMain.gameHeight);
+		String hexString =String.format("%06d", screen.getRGB(botright.x, botright.y));
+		if(GameColor.isGameColor(Color.decode(hexString)))
+		{
+			System.out.println(topleft.getX());
+			return topleft;
+		}
+
+		else
+		throw new GameScreenNotFoundException("Partial Screen Only");
 	}
 	
 	private static Point findPartOfGame() throws GameScreenNotFoundException
@@ -46,9 +62,10 @@ public class OtherGameScreenLocator {
 		int horizontalSteps = ScannerMain.gameWidth/2;
 		int verticalSteps = ScannerMain.gameHeight/2;
 		
-		int htests = width/horizontalSteps;
-		int vtests = height/verticalSteps;
+		//int htests = width/horizontalSteps;
+		//int vtests = height/verticalSteps;
 		
+		Point gamePoint = new Point();
 		Color testPixel;
 		String hexString;
 		for(int y=0; y<height; y+=verticalSteps)
@@ -58,10 +75,14 @@ public class OtherGameScreenLocator {
 				hexString= String.format("%06d",screen.getRGB(x, y));
 				testPixel=Color.decode(hexString);
 				if(GameColor.isGameColor(testPixel))
-				System.out.println(testPixel);
+					{
+						gamePoint.setLocation(x, y);
+						return gamePoint;
+					}
 			}
 		}
-	
+		
+		
 	
 		//width * verticalSteps*v +h*horizontalSteps
 		//
@@ -86,11 +107,92 @@ public class OtherGameScreenLocator {
 //		System.out.println(pixels);
 //		
 		
-		
 		gameFound=false;
 		throw new GameScreenNotFoundException("Game is not on screen or is obstructed");
 	}
+	private static int findTopOfGameScreen(Point partOfScreen)
+	{
+		int highestY=(int) partOfScreen.getY();
+		int x= (int) partOfScreen.getX();
+		
+		int manualSteps=12;
+		int divider=6;
+		int verticalStep=ScannerMain.gameHeight/divider;
+		int testY=highestY;
+		
+		String hexString;
+		Color testColor;
+		
+		while(verticalStep>manualSteps)
+		{
+			hexString= String.format("%06d",screen.getRGB(x, highestY));
+			testColor=Color.decode(hexString);
+			while(GameColor.isGameColor(testColor))
+				
+			{
+				highestY= testY; 
+				testY= highestY -verticalStep;
+				hexString= String.format("%06d",screen.getRGB(x, highestY));
+				testColor=Color.decode(hexString);
+				
+			}
+			testY=highestY;
+			divider=divider*2;
+			verticalStep=ScannerMain.gameHeight/divider;
+		}
+	
+			hexString = String.format("%06d",screen.getRGB(x, testY));
+		while(GameColor.isGameColor(Color.decode(hexString)) && testY>1)
+		{
+			highestY=testY;
+			System.out.println(testY);
+			//String representation of Color
+			testY--;
+			hexString= String.format("%06d",screen.getRGB(x, testY));
+		}
+		return highestY;
+	}
 
+	private static int findLeftOfGameScreen(Point partOfScreen)
+	{
+		int y=(int) partOfScreen.getY();
+		int leftMostX= (int) partOfScreen.getX();
+		
+		int manualSteps=12;
+		int divider=6;
+		int horizontalStep=ScannerMain.gameWidth/divider;
+		int testX=leftMostX;
+		
+		String hexString;
+		Color testColor;
+		
+		while(horizontalStep>manualSteps)
+		{
+			hexString= String.format("%06d",screen.getRGB(leftMostX, y));
+			testColor=Color.decode(hexString);
+			while(GameColor.isGameColor(testColor))
+			{
+				leftMostX= testX; 
+				testX= leftMostX -horizontalStep;
+				hexString= String.format("%06d",screen.getRGB(leftMostX, y));
+				testColor=Color.decode(hexString);
+			}
+			testX=leftMostX;
+			divider=divider*2;
+			horizontalStep=ScannerMain.gameWidth/divider;
+		}
+		hexString = String.format("%06d",screen.getRGB(testX, y));
+		while(GameColor.isGameColor(Color.decode(hexString)))
+		{
+			leftMostX=testX;
+			testX--;
+			//String representation of Color
+			hexString= String.format("%06d",screen.getRGB(testX, y));
+			
+		}
+		
+		return leftMostX;
+	}
 	
 
 }
