@@ -1,8 +1,8 @@
 package main;
 
 import exceptions.GameScreenNotFoundException;
-import scanning.GameScreenLocator;
 import scanning.ScannerMain;
+import scanningtest.GameScreenLocatorFail;
 
 public class StartClass {
 

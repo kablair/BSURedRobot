@@ -1,6 +1,7 @@
 package scanning;
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Robot;
@@ -36,6 +37,18 @@ public class ScreenReader {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static Point getPointerLocation()
+	{
+		Point p = MouseInfo.getPointerInfo().getLocation();
+		return p;
+	}
+	public static Color findColorAtMouse()
+	{
+			Point p =getPointerLocation();
+			Color color = ScreenReader.scanPixelColor(p);
+			return color;
 	}
 	
 
