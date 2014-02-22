@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import scanningtest.GameScreenLocator3;
 import scanningtest.OtherGameScreenLocator;
 import exceptions.GameScreenNotFoundException;
 import exceptions.IsDisabledException;
@@ -21,10 +22,8 @@ public class ScannerMain {
 		enabled=true;
 		GameScreenLocator.initialize();
 		try {
-			gameScreenLocation=new Point();
-			OtherGameScreenLocator.initialize();
-			System.out.println(OtherGameScreenLocator.findGameLocation());
-			System.out.println(GameScreenLocator.findTopLeftOfGameScreen());//setGameScreenLocation();
+			GameScreenLocator3.initialize();
+			gameScreenLocation = GameScreenLocator3.findGameLocation();
 			
 		} catch (GameScreenNotFoundException e) {
 			
