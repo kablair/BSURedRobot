@@ -4,8 +4,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import scanningtest.GameScreenLocatorFail;
 import exceptions.GameScreenNotFoundException;
+import exceptions.InvalidTileException;
 import exceptions.IsDisabledException;
 
 public class ScannerMain {
@@ -19,15 +19,22 @@ public class ScannerMain {
 	public static void initialize()
 	{
 		enabled=true;
-		GameScreenLocatorFail.initialize();
-		try {
+		try 
+		{
 			GameScreenLocator.initialize();
-			gameScreenLocation = GameScreenLocator.findGameLocation();
+			setGameScreenLocation();
+			//ScreenTile tile1 = new ScreenTile(1,5);
+			//ScreenTile tile2 = new ScreenTile(1,5);
+			//System.out.println(tile1.isTileDataEqual(tile2.getTileData(tile2)));
 			
-		} catch (GameScreenNotFoundException e) {
-			
+		} 
+		catch (GameScreenNotFoundException e) 
+		{	
 			System.out.println(e.getMessage());
-		}
+		} 
+		//catch (InvalidTileException e) {
+		//	System.out.println(e.getMessage());
+		//}
 	}
 	
 	public static void deactivate()
@@ -87,9 +94,9 @@ public class ScannerMain {
 	
 
 
-	private static void setGameScreenLocation() throws GameScreenNotFoundException
+	public static void setGameScreenLocation() throws GameScreenNotFoundException
 	{
-		Point location =GameScreenLocatorFail.findTopLeftOfGameScreen();
+		Point location =GameScreenLocator.findGameLocation(); 
 			gameScreenLocation.setLocation(location);
 	}
 	

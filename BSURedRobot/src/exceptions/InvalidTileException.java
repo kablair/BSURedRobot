@@ -6,7 +6,12 @@ public class InvalidTileException extends Exception {
 
 	public InvalidTileException()
 	{
-		super("Tile is out of Bounds");
+		super("Invalid Tile");
 		
+	}
+	
+	public InvalidTileException(String message)
+	{
+		super(message);
 	}
 }

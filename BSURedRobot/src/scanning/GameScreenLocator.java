@@ -11,6 +11,8 @@ import exceptions.GameScreenNotFoundException;
 
 public class GameScreenLocator {
 
+	//Another thing to do: if only a partial screen is discovered, try to find how it is being 
+	//blocked. Maybe we can still use some data.
 		private static BufferedImage screen;
 		private static int width;
 		private static int height;
@@ -41,9 +43,11 @@ public class GameScreenLocator {
 			Point botright= new Point();
 			Point partOfGame = findPartOfGame();
 			int y= findTopOfGameScreen(partOfGame);
+			System.out.println(y);
 			int x= findLeftOfGameScreen(partOfGame);
-			
+			System.out.println(x);
 			topleft.setLocation(x, y);
+			System.out.println(Toolkit.getDefaultToolkit().getScreenSize());
 			botright.setLocation(x+ScannerMain.gameWidth-1, y+ScannerMain.gameHeight-1);
 			System.out.println(topleft);
 			System.out.println(botright);
@@ -51,12 +55,12 @@ public class GameScreenLocator {
 			 * will be outside of screen. This is why we check here; it prevents an
 			 * out of bounds exception
 			 */
-			if(botright.x<=screen.getWidth() && botright.y <-screen.getHeight())
+			if(botright.x<=screen.getWidth() && botright.y <=screen.getHeight())
 			{
 				
 				if(GameColor.isGameColor(getColorFromScreenCoord(botright.x, botright.y)))
 				{
-					System.out.println(topleft);
+					System.out.println("Screen Found");
 					return topleft;
 				}
 				else
@@ -64,7 +68,7 @@ public class GameScreenLocator {
 			}
 			
 			else
-			throw new GameScreenNotFoundException("Partial Screen Only");
+			throw new GameScreenNotFoundException("Partial Screen Only, off screen");
 		}
 		
 		private static int findTopOfGameScreen(Point partOfGame) {
@@ -78,7 +82,6 @@ public class GameScreenLocator {
 				highestY=testY;
 				testY--;
 			}
-			System.out.println(highestY);
 			return highestY;
 		}
 		
@@ -93,7 +96,6 @@ public class GameScreenLocator {
 				leftmostX=testX;
 				testX--;
 			}
-			System.out.println(leftmostX);
 			return leftmostX;
 		}
 		
