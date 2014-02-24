@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import data_storage.TileLoader;
+import data_storage.TileReader;
 import data_storage.TileWriter;
 import exceptions.GameScreenNotFoundException;
 import exceptions.InvalidTileException;
@@ -28,8 +28,8 @@ public class ScannerMain {
 			GameScreenLocator.initialize();
 			setGameScreenLocation();
 			ScreenTile tile1 = new ScreenTile(4,2);
-			//TileWriter.writeTile(tile1, "oakhead");
-			String tileDataOak[][] =TileLoader.loadTile("oakhead");
+			TileWriter.writeTile(tile1, "oakhead2");
+			String tileDataOak[][] =TileReader.loadTile("oakhead");
 			if(tile1.isTileDataEqual(tileDataOak))
 			{
 				System.out.println("oak is on screen");

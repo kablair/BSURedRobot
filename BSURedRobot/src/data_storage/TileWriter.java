@@ -9,9 +9,10 @@ import scanning.ScreenTile;
 
 public class TileWriter {
 
-	public static void writeTile(ScreenTile tile, String title) throws IOException
+	public static void writeTile(ScreenTile tile, String tileName) throws IOException
 	{
-		String fileLocation="C:/Users/kelly/git/BSURedRobot/BSURedRobot/tileData/"+title+".txt";
+		
+		String fileLocation=System.getProperty("user.dir")+"/tileData/"+tileName+".txt";
 		String[][] tileData=tile.getTileData();
 		File file =new File(fileLocation);
 		if(!file.exists()){

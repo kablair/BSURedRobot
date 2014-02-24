@@ -7,12 +7,12 @@ import java.io.IOException;
 
 import scanning.ScreenTile;
 
-public class TileLoader {
+public class TileReader {
 	
-	public static String[][] loadTile(String fileName) throws IOException
+	public static String[][] loadTile(String tileName) throws IOException
 	{
 		String[][] tileData = new String[ScreenTile.getTilesize()] [ScreenTile.getTilesize()];
-		String fileLocation= "C:/Users/kelly/git/BSURedRobot/BSURedRobot/tileData/"+fileName+".txt";
+		String fileLocation= System.getProperty("user.dir")+"/tileData/"+tileName+".txt";
 		File file = new File(fileLocation);
 		FileReader fr = new FileReader(file); 
 		BufferedReader br = new BufferedReader(fr);

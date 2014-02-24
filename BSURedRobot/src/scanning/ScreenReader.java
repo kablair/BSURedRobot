@@ -54,12 +54,24 @@ public class ScreenReader {
 		//screenTile.getIdentity()
 		return null;
 	}
-	
-	public static void setScreenTile(ScreenTile tile) throws InvalidTileException
+	public static BufferedImage getTileImage(ScreenTile tile) throws InvalidTileException
 	{
 		Rectangle tileRect = tile.getTileRect();
 		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
-		tile.setImage(tileImage);
+		return tileImage;
+	}
+	public static BufferedImage getTileImage(int tileRow, int tileCol) throws InvalidTileException
+	{
+		ScreenTile tile = new ScreenTile(tileRow, tileCol);
+		Rectangle tileRect = tile.getTileRect();
+		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
+		return tileImage;
+	}
+
+	
+	public static void setScreenTiles()
+	{
+		
 	}
 	
 	

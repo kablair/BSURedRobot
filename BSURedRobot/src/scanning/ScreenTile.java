@@ -24,7 +24,7 @@ public class ScreenTile {
 	public ScreenTile(int screenTileRow, int screenTileCol) throws InvalidTileException {
 		setScreenTileRow(screenTileRow);
 		setScreenTileCol(screenTileCol);
-		ScreenReader.setScreenTile(this);
+		setImage(ScreenReader.getTileImage(this));
 	}
 
 	public ScreenTile(int screenTileRow, int screenTileCol, BufferedImage image) throws InvalidTileException
