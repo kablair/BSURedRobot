@@ -7,6 +7,8 @@ import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.image.BufferedImage;
 
+import exceptions.InvalidTileException;
+
 /**Reads Pixels from screen, or captures images*/
 public class ScreenReader {
 
@@ -39,6 +41,31 @@ public class ScreenReader {
 		return null;
 	}
 	
+//*************************************************************************************
+//ScreenTiles
+//*************************************************************************************
+	public static ScreenTile readScreenTile(int screenTileX, int screenTileY) throws InvalidTileException
+	{
+		ScreenTile screenTile = new ScreenTile(screenTileX, screenTileY);
+		Rectangle tileRect = ScreenTile.getTileRect(screenTileX, screenTileY);
+		//Rectangle tileRect =screenTile.getTileRectangle();
+		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
+		screenTile.setImage(tileImage);
+		//screenTile.getIdentity()
+		return null;
+	}
+	
+	public static void setScreenTile(ScreenTile tile) throws InvalidTileException
+	{
+		Rectangle tileRect = tile.getTileRect();
+		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
+		tile.setImage(tileImage);
+	}
+	
+	
+//******************************************************************************************
+//Mouse
+//******************************************************************************************
 	public static Point getPointerLocation()
 	{
 		Point p = MouseInfo.getPointerInfo().getLocation();

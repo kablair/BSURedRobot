@@ -24,6 +24,7 @@ public class ScreenTile {
 	public ScreenTile(int screenTileRow, int screenTileCol) throws InvalidTileException {
 		setScreenTileRow(screenTileRow);
 		setScreenTileCol(screenTileCol);
+		ScreenReader.setScreenTile(this);
 	}
 
 	public ScreenTile(int screenTileRow, int screenTileCol, BufferedImage image) throws InvalidTileException
@@ -108,7 +109,7 @@ public class ScreenTile {
 //****************************************************************************************
 //Get tileData[][]
 //****************************************************************************************
-	public String[][] getTileData(ScreenTile tile)
+	public static String[][] getTileData(ScreenTile tile)
 	{
 		String tileArray[][] = new String[ScreenTile.getTilesize()][ScreenTile.getTilesize()];
 		BufferedImage tileImage =tile.getImage();
@@ -122,15 +123,41 @@ public class ScreenTile {
 		return tileArray;
 	}
 	
+	public String[][] getTileData()
+	{
+		String tileArray[][] = new String[ScreenTile.getTilesize()][ScreenTile.getTilesize()];
+		BufferedImage tileImage =this.getImage();
+		for(int y=0; y<tileImage.getHeight(); y++)
+		{
+			for(int x=0; x<tileImage.getWidth(); x++)
+			{
+				tileArray[y][x]=String.format("%06d",this.getImage().getRGB(x, y));
+			}
+		}
+		return tileArray;
+	}
+//********************************************************************************************
+//Compare Tile Data
+//********************************************************************************************
+	public static boolean isRightSize(String tileData[][])
+	{
+		boolean isRightSize= false;
+		if(tileData.length ==tileSize && tileData[tileSize-1].length==tileSize)
+		{
+			isRightSize=true;
+		}
+		return isRightSize;
+	}
+	
 	public boolean isTileDataEqual(String tileData[][]) throws InvalidTileException
 	{
 		boolean equals = true;
 		String tileData2[][] = this.getTileData(this);
-		if (tileData.length ==tileSize && tileData[tileSize].length ==tileSize)
+		if (tileData.length ==tileSize && tileData[tileSize-1].length ==tileSize)
 		{
 			for(int y=0; y<tileData.length; y++)
 			{
-				for(int x=0; x<tileData[tileSize].length; x++)
+				for(int x=0; x<tileData[tileSize-1].length; x++)
 				{
 					if(!tileData[y][x].equals(tileData2[y][x]))
 						equals=false;
@@ -141,6 +168,33 @@ public class ScreenTile {
 		else throw new InvalidTileException("Tile data is the wrong size");
 			
 	}
+	
+	public boolean isTileDataEqual(ScreenTile tile) throws InvalidTileException
+	{
+		String tileData1[][] = this.getTileData();
+		String tileData2[][]= tile.getTileData();
+		return isTileDataEqual(tileData1, tileData2);	
+	}
+	
+	public static boolean isTileDataEqual(String[][] tileData1, String[][] tileData2) throws InvalidTileException
+	{
+		boolean equals = true;
+		if (isRightSize(tileData1)&&isRightSize(tileData2))
+		{
+			for(int y=0; y<tileData1.length; y++)
+			{
+				for(int x=0; x<tileData1[tileSize-1].length; x++)
+				{
+					if(!tileData1[y][x].equals(tileData2[y][x]))
+						equals=false;
+				}
+			}
+			return equals;
+		}
+		else throw new InvalidTileException("Tile data is the wrong size");
+			
+	}
+	
 //****************************************************************************************
 //Row and Col Checkers
 //*****************************************************************************************

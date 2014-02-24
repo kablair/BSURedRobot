@@ -3,7 +3,10 @@ package scanning;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import data_storage.TileLoader;
+import data_storage.TileWriter;
 import exceptions.GameScreenNotFoundException;
 import exceptions.InvalidTileException;
 import exceptions.IsDisabledException;
@@ -18,23 +21,36 @@ public class ScannerMain {
 	private static boolean enabled;
 	public static void initialize()
 	{
+		gameScreenLocation = new Point();
 		enabled=true;
 		try 
 		{
 			GameScreenLocator.initialize();
 			setGameScreenLocation();
-			//ScreenTile tile1 = new ScreenTile(1,5);
-			//ScreenTile tile2 = new ScreenTile(1,5);
-			//System.out.println(tile1.isTileDataEqual(tile2.getTileData(tile2)));
+			ScreenTile tile1 = new ScreenTile(4,2);
+			//TileWriter.writeTile(tile1, "oakhead");
+			String tileDataOak[][] =TileLoader.loadTile("oakhead");
+			if(tile1.isTileDataEqual(tileDataOak))
+			{
+				System.out.println("oak is on screen");
+			}
+			else
+			{
+				System.out.println("oakhead not found");
+			}
 			
 		} 
 		catch (GameScreenNotFoundException e) 
 		{	
 			System.out.println(e.getMessage());
 		} 
-		//catch (InvalidTileException e) {
-		//	System.out.println(e.getMessage());
-		//}
+		catch (InvalidTileException e) {
+			System.out.println(e.getMessage());
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void deactivate()
