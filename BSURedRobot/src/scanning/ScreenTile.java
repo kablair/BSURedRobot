@@ -149,23 +149,10 @@ public class ScreenTile {
 		return isRightSize;
 	}
 	
-	public boolean isTileDataEqual(String tileData[][]) throws InvalidTileException
+	public boolean isTileDataEqual(String tileData1[][]) throws InvalidTileException
 	{
-		boolean equals = true;
-		String tileData2[][] = this.getTileData(this);
-		if (tileData.length ==tileSize && tileData[tileSize-1].length ==tileSize)
-		{
-			for(int y=0; y<tileData.length; y++)
-			{
-				for(int x=0; x<tileData[tileSize-1].length; x++)
-				{
-					if(!tileData[y][x].equals(tileData2[y][x]))
-						equals=false;
-				}
-			}
-			return equals;
-		}
-		else throw new InvalidTileException("Tile data is the wrong size");
+		String tileData2[][]=this.getTileData();
+		return isTileDataEqual(tileData1, tileData2);
 			
 	}
 	
