@@ -69,9 +69,19 @@ public class ScreenReader {
 	}
 
 	
-	public static void setScreenTiles()
+	public static ScreenTile[][] getScreenTiles() throws InvalidTileException
 	{
-		
+		int maxCol= ScreenTile.getMaxscreentilecol();
+		int maxRow = ScreenTile.getMaxscreentilerow();
+		ScreenTile[][] screenTiles = new ScreenTile[maxCol][maxRow];
+		for(int y=0; y<maxCol-1; y++)
+		{
+			for(int x=0; x<maxRow-1; x++)
+			{
+				screenTiles[y][x]=new ScreenTile(x,y);
+			}
+		}
+		return screenTiles;
 	}
 	
 	

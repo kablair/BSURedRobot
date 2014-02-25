@@ -1,15 +1,9 @@
 package scanning;
 
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import data_storage.TileReader;
-import data_storage.TileWriter;
 import exceptions.GameScreenNotFoundException;
 import exceptions.InvalidTileException;
-import exceptions.IsDisabledException;
+import exceptions.ScanningDisabledException;
 
 public class ScannerMain {
 
@@ -27,29 +21,23 @@ public class ScannerMain {
 		{
 			GameScreenLocator.initialize();
 			setGameScreenLocation();
-			ScreenTile tile1 = new ScreenTile(4,2);
-			TileWriter.writeTile(tile1, "oakhead2");
-			String tileDataOak[][] =TileReader.loadTile("oakhead");
-			if(tile1.isTileDataEqual(tileDataOak))
-			{
-				System.out.println("oak is on screen");
-			}
-			else
-			{
-				System.out.println("oakhead not found");
-			}
+	//		setScreenTiles();
+//			ScreenTile tile1 = new ScreenTile(4,2);
+//			TileWriter.writeTile(tile1, "oakhead2");
+//			String tileDataOak[][] =TileReader.loadTile("oakhead");
+//			if(tile1.isTileDataEqual(tileDataOak))
+//			{
+//				System.out.println("oak is on screen");
+//			}
+//			else
+//			{
+//				System.out.println("oakhead not found");
+//			}
 			
 		} 
 		catch (GameScreenNotFoundException e) 
 		{	
 			System.out.println(e.getMessage());
-		} 
-		catch (InvalidTileException e) {
-			System.out.println(e.getMessage());
-		} 
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 	
@@ -63,67 +51,30 @@ public class ScannerMain {
 		return enabled;
 	}
 
-	
-//	public static BufferedImage captureGameScreen() throws IsDisabledException
-//	{
-//		BufferedImage screenCapture;
-//		if(enabled)
-//		{
-//			screenCapture = ScreenReader.createScreenCapture(getScreenRect());
-//			return screenCapture;
-//		}
-//		else throw new IsDisabledException();
-//	}
-
-	/**There are 10 hTiles and 9 yTiles
-	 * @param xTile = a value ranging from 0 to 9
-	 * @param ytile = a value ranging from 0 to 8*/
-//	public static BufferedImage captureGameTile(int xTile, int yTile) throws IsDisabledException
-//	{
-//		BufferedImage tileCapture;
-//		if(enabled)
-//		{
-//			tileCapture = ScreenReader.createScreenCapture(getTileRect(xTile, yTile));
-//			return tileCapture;
-//		}
-//	 else throw new IsDisabledException();
-//	}
-	
-//	private static Rectangle getScreenRect()
-//	{
-//			Rectangle gameScreenRect = new Rectangle();
-//			int x = (int) gameScreenLocation.getX();
-//			int y = (int) gameScreenLocation.getY();
-//			gameScreenRect.setBounds(x, y, gameWidth, gameHeight);
-//			return gameScreenRect;
-//
-//	}
-
-//	private static Rectangle getTileRect(int xTile, int yTile)
-//	{
-//		Rectangle tileRect = new Rectangle();
-//		int x = (int) gameScreenLocation.getX()+xTile*tileSize;
-//		int y = (int) gameScreenLocation.getY()+yTile*tileSize;
-//		tileRect.setBounds(xTile, yTile, tileSize, tileSize);
-//		return tileRect;
-//	}
-	
-
-
 	public static void setGameScreenLocation() throws GameScreenNotFoundException
 	{
 		Point location =GameScreenLocator.findGameLocation(); 
 			gameScreenLocation.setLocation(location);
 	}
 	
-	public static Point getGameScreenLocaton()
+	public static ScreenTile[][] getScreenTiles() throws InvalidTileException, ScanningDisabledException
 	{
+		if(isEnabled())
+		{
+			ScreenTile [][] screenTiles = ScreenReader.getScreenTiles();
+			return screenTiles;
+		}
+		else throw new ScanningDisabledException("Error: Tried to read screenTiles when ScannerMain was disabled.");
+				
+	}
+
+	public static Point getGameScreenLocaton() throws ScanningDisabledException
+	{
+		if(isEnabled())
 		return gameScreenLocation;
+		else throw new ScanningDisabledException("Error: Tried to get screen location when ScannerMain was disabled.");
 	}
 	
-	public static int getTileSize()
-	{
-		return tileSize;
-	}
+
 	
 }

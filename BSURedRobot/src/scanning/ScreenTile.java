@@ -5,7 +5,9 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import exceptions.InvalidTileException;
+import exceptions.ScanningDisabledException;
 
+/**A class that represents an in-game tile. Contains an image, row, and col.**/
 public class ScreenTile {
 
 	private static final int maxScreenTileRow=9;
@@ -18,15 +20,28 @@ public class ScreenTile {
 	//Null image exception?
 	
 
-	//*****************************************************************************
+//*****************************************************************************
 //Tile Setup
 //*****************************************************************************
+/**A class that represents an in-game tile. Contains an image, row, and col.
+	 * @param BufferedImage image*/
+	public ScreenTile(BufferedImage image) throws InvalidTileException {
+		setImage(image);
+	}
+	
+	/**A class that represents an in-game tile. Contains an image, row, and col.
+	 * @param int screenTileRow
+	 * @param int screenTileCol**/
 	public ScreenTile(int screenTileRow, int screenTileCol) throws InvalidTileException {
 		setScreenTileRow(screenTileRow);
 		setScreenTileCol(screenTileCol);
 		setImage(ScreenReader.getTileImage(this));
 	}
 
+	/**A class that represents an in-game tile. Contains an image, row, and col.
+	 * @param int screenTileRow
+	 * @param int screenTileCol
+	 * @param BufferedImage image**/
 	public ScreenTile(int screenTileRow, int screenTileCol, BufferedImage image) throws InvalidTileException
 	{
 		setScreenTileRow(screenTileRow);
@@ -66,12 +81,19 @@ public class ScreenTile {
 	//TODO Check
 	public static Point getTileLocation(int screenTileRow, int screenTileCol)
 	{
-		Point start = ScannerMain.getGameScreenLocaton();
-
 		Point tileLocation= new Point();
-		int deltaX = screenTileRow*tileSize;
-		int deltaY= screenTileCol*tileSize;
-		tileLocation.setLocation(start.x+ deltaX, start.y +deltaY);
+		try {
+			
+			Point start = ScannerMain.getGameScreenLocaton();
+			int deltaX = screenTileRow*tileSize;
+			int deltaY= screenTileCol*tileSize;
+			tileLocation.setLocation(start.x+ deltaX, start.y +deltaY);
+			return tileLocation;
+		} 
+		catch (ScanningDisabledException e) {
+			e.printStackTrace();
+		}
+
 		return tileLocation;
 	}
 	
@@ -221,5 +243,13 @@ public class ScreenTile {
 	}
 	public static int getTilesize() {
 		return tileSize;
+	}
+
+	public static int getMaxscreentilerow() {
+		return maxScreenTileRow;
+	}
+
+	public static int getMaxscreentilecol() {
+		return maxScreenTileCol;
 	}
 }
