@@ -19,8 +19,8 @@ public class StartClass {
 		try {
 			ScreenTile tile = ScannerMain.getScreenTile(5, 6);
 			TileWriter.writeTile(tile, "sample");
-			//System.out.println(tile.getTileData());
 			System.out.println(TileReader.loadTileData("sample"));
+			tile = new ScreenTile(TileReader.loadTileData("sample"));
 			TileCompressor.compress(tile);
 			FrameMain frame = new FrameMain();
 			

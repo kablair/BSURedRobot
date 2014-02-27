@@ -171,7 +171,6 @@ public class ScreenTile {
 			for(int x=0; x<tileImage.getWidth()/4; x++)
 			{
 				String tileString=String.format("%06d",tile.getImage().getRGB(x*4, y*4));
-				System.out.println(tileString);
 				int tileInt=Integer.parseInt(tileString);
 				tileArray[y][x]= tileInt;
 			}

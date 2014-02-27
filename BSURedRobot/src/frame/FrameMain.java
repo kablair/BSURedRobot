@@ -35,7 +35,7 @@ public class FrameMain extends JFrame implements WindowListener{
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		try {
-			TileDialog dialog = new TileDialog(this, ImageWriter.writeImage(TileReader.loadTileData("sample")));
+			TileDialog dialog = new TileDialog(this, ImageWriter.writeImage(TileReader.loadTileData("sample"),true));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
