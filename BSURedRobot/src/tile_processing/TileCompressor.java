@@ -20,7 +20,7 @@ public class TileCompressor {
 		int colorInt=0;
 
 		try {
-			System.out.println(GameColor.getGameColor(data[10][10]));
+			System.out.println(GameColor.getGameColor(data[5][5]));
 		} catch (NumberFormatException | InvalidGameColorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

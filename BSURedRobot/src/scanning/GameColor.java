@@ -14,10 +14,13 @@ public enum GameColor {
 
 	private final Color color;
 	private final int rgb;
-
+	private final byte id;
+	
 	private GameColor(int r, int g, int b) {
 		this.color = new Color(r, g, b);
 		this.rgb= this.color.getRGB();
+		this.id=(byte) this.ordinal();
+		System.out.println(this);
 	}
 
 	Color getColor() {
@@ -29,6 +32,10 @@ public enum GameColor {
 		return rgb;
 	}
 	
+	public byte getId()
+	{
+		return id;
+	}
 	/**
 	 * Sees if the color is the same color as a GameColor 
 	 */
@@ -89,5 +96,14 @@ public enum GameColor {
 			return false;
 		}
 
+	}
+	
+	@Override
+	public String toString()
+	{
+		String string=id+": "+this.name()+" "+ this.getRGB();
+
+		return string;
+		
 	}
 }

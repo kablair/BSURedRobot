@@ -166,14 +166,14 @@ public class ScreenTile {
 	{
 		int tileArray[][] = new int[ScreenTile.getArraysize()][ScreenTile.getArraysize()];
 		BufferedImage tileImage =tile.getImage();
-		for(int y=0; y<tileImage.getHeight(); y+=4)
+		for(int y=0; y<tileImage.getHeight()/4; y++)
 		{
-			for(int x=0; x<tileImage.getWidth(); x+=4)
+			for(int x=0; x<tileImage.getWidth()/4; x++)
 			{
-				String tileString=String.format("%06d",tile.getImage().getRGB(x, y));
+				String tileString=String.format("%06d",tile.getImage().getRGB(x*4, y*4));
 				System.out.println(tileString);
 				int tileInt=Integer.parseInt(tileString);
-				tileArray[y/4][x/4]= tileInt;
+				tileArray[y][x]= tileInt;
 			}
 		}
 		return tileArray;

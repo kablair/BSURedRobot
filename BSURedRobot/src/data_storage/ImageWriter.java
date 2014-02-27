@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 public class ImageWriter {
 
-	public static BufferedImage writeImage(String[][] pixels)
+	public static BufferedImage writeImage(int[][] pixels)
 	{
 		
 		BufferedImage image = new BufferedImage(pixels.length, pixels[0].length, BufferedImage.TYPE_INT_RGB);
@@ -12,11 +12,11 @@ public class ImageWriter {
 		{
 			for(int x=0; x<pixels.length; x++)
 			{
-				for(int deltaY=0; deltaY<4; deltaY++)
+				//for(int deltaY=0; deltaY<4; deltaY++)
 				{
-					for(int deltaX=0; deltaX<4; deltaX++)
+					//for(int deltaX=0; deltaX<4; deltaX++)
 					{
-						image.setRGB(x+deltaX, y+deltaY, Integer.parseInt(pixels[y][x]));
+						image.setRGB(x, y, pixels[y][x]);
 					}
 				}
 			}

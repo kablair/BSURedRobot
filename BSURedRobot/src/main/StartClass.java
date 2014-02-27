@@ -6,6 +6,7 @@ import data_storage.TileReader;
 import data_storage.TileWriter;
 import exceptions.InvalidTileException;
 import exceptions.ScanningDisabledException;
+import frame.FrameMain;
 import scanning.ScannerMain;
 import scanning.ScreenTile;
 import tile_processing.TileCompressor;
@@ -18,8 +19,11 @@ public class StartClass {
 		try {
 			ScreenTile tile = ScannerMain.getScreenTile(5, 6);
 			TileWriter.writeTile(tile, "sample");
+			//System.out.println(tile.getTileData());
 			System.out.println(TileReader.loadTileData("sample"));
 			TileCompressor.compress(tile);
+			FrameMain frame = new FrameMain();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

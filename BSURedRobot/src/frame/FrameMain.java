@@ -14,6 +14,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import data_storage.ImageWriter;
+import data_storage.TileReader;
+
 public class FrameMain extends JFrame implements WindowListener{
 	private static final long serialVersionUID = 157572953151107392L;
 	private static TextPanel textPanel = new TextPanel();
@@ -31,8 +34,12 @@ public class FrameMain extends JFrame implements WindowListener{
 		this.pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		//this.add(dialog);
+		try {
+			TileDialog dialog = new TileDialog(this, ImageWriter.writeImage(TileReader.loadTileData("sample")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 		
 	}
 	
