@@ -1,16 +1,22 @@
 package frame;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class FrameMain extends JFrame implements WindowListener{
 	private static final long serialVersionUID = 157572953151107392L;
 	private static TextPanel textPanel = new TextPanel();
-	
 	//Goals: Rename tiles from default
 	//Choose AI pattern
 	//Pause/Start Actions
@@ -18,7 +24,6 @@ public class FrameMain extends JFrame implements WindowListener{
 	//View desision making pattern current: what is making it choose this way?
 	public FrameMain()
 	{
-		
 		this.setTitle("PokeFrame");
 		this.setLayout(new GridLayout(2,1));
 		this.setPreferredSize(new Dimension(400,500));
@@ -26,6 +31,8 @@ public class FrameMain extends JFrame implements WindowListener{
 		this.pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		//this.add(dialog);
 		
 	}
 	
@@ -47,6 +54,14 @@ public class FrameMain extends JFrame implements WindowListener{
 	public void pause()
 	{
 		//KeyboardRobot.pause();
+	}
+	
+	@Override
+	public void paintComponents(Graphics g)
+	{
+		super.paintComponents(g);
+		
+		
 	}
 
 	@Override

@@ -13,7 +13,9 @@ public class ImageWriter {
 			for(int x=0; x<pixels.length; x++)
 			{
 				image.setRGB(x, y, Integer.parseInt(pixels[y][x]));
+				System.out.print(image.getRGB(x, y)+ " ");
 			}
+			System.out.println();
 		}
 		
 		return image;
