@@ -12,10 +12,14 @@ public class ImageWriter {
 		{
 			for(int x=0; x<pixels.length; x++)
 			{
-				image.setRGB(x, y, Integer.parseInt(pixels[y][x]));
-				System.out.print(image.getRGB(x, y)+ " ");
+				for(int deltaY=0; deltaY<4; deltaY++)
+				{
+					for(int deltaX=0; deltaX<4; deltaX++)
+					{
+						image.setRGB(x+deltaX, y+deltaY, Integer.parseInt(pixels[y][x]));
+					}
+				}
 			}
-			System.out.println();
 		}
 		
 		return image;

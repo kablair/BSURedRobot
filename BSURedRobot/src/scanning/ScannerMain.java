@@ -10,7 +10,7 @@ public class ScannerMain {
 	public static final int gameWidth=640;
 	public static final int gameHeight=576;
 	public static final int tileSize = 64;
-	
+
 	private static Point gameScreenLocation;
 	private static boolean enabled;
 	public static void initialize()
@@ -19,8 +19,10 @@ public class ScannerMain {
 		enabled=true;
 		try 
 		{
+		
 			GameScreenLocator.initialize();
 			setGameScreenLocation();
+
 	//		setScreenTiles();
 //			ScreenTile tile1 = new ScreenTile(4,2);
 //			TileWriter.writeTile(tile1, "oakhead2");
@@ -61,13 +63,23 @@ public class ScannerMain {
 	{
 		if(isEnabled())
 		{
-			ScreenTile [][] screenTiles = ScreenReader.getScreenTiles();
+			ScreenTile [][] screenTiles = ScreenReader.readScreenTiles();
 			return screenTiles;
 		}
 		else throw new ScanningDisabledException("Error: Tried to read screenTiles when ScannerMain was disabled.");
 				
 	}
 
+	public static ScreenTile getScreenTile(int screenRow, int screenCol) throws InvalidTileException, ScanningDisabledException
+	{
+		if(isEnabled())
+		{
+			ScreenTile screenTile = ScreenReader.readScreenTile(screenRow, screenCol);
+			return screenTile;
+		}
+		else throw new ScanningDisabledException("Error: Tried to read screenTiles when ScannerMain was disabled.");
+				
+	}
 	public static Point getGameScreenLocaton() throws ScanningDisabledException
 	{
 		if(isEnabled())

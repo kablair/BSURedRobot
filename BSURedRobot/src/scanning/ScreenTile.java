@@ -13,10 +13,12 @@ public class ScreenTile {
 	private static final int maxScreenTileRow=9;
 	private static final int maxScreenTileCol=8;
 	private static final int tileSize=64;
+	private static final int arraySize=tileSize/4;
 	private int screenTileRow;
 	private int screenTileCol;
 	private BufferedImage image;
-	String tileArray[][];
+	private int tileData[][];
+	private int tileId[];
 	//Null image exception?
 	
 
@@ -29,13 +31,24 @@ public class ScreenTile {
 		setImage(image);
 	}
 	
+/**A class that represents an in-game tile. Contains an image, row, and col.
+	 * @param BufferedImage image*/
+	public ScreenTile(int[][] tileData) throws InvalidTileException {
+		if(isRightSize(tileData))
+			this.tileData=tileData;
+		else
+		{
+			throw new InvalidTileException("Tile data is the wrong size.");
+		}
+	}
+	
 	/**A class that represents an in-game tile. Contains an image, row, and col.
 	 * @param int screenTileRow
 	 * @param int screenTileCol**/
 	public ScreenTile(int screenTileRow, int screenTileCol) throws InvalidTileException {
 		setScreenTileRow(screenTileRow);
 		setScreenTileCol(screenTileCol);
-		setImage(ScreenReader.getTileImage(this));
+		setImage(ScreenReader.readTileImage(this));
 	}
 
 	/**A class that represents an in-game tile. Contains an image, row, and col.
@@ -131,70 +144,81 @@ public class ScreenTile {
 //****************************************************************************************
 //Get tileData[][]
 //****************************************************************************************
-	public static String[][] getTileData(ScreenTile tile)
+	public static int[][] getTileData(ScreenTile tile)
 	{
-		String tileArray[][] = new String[ScreenTile.getTilesize()][ScreenTile.getTilesize()];
-		BufferedImage tileImage =tile.getImage();
-		for(int y=0; y<tileImage.getHeight(); y++)
+		if(tile.tileData==null)
 		{
-			for(int x=0; x<tileImage.getWidth(); x++)
+			tile.tileData=findTileData(tile);
+		}
+		return tile.tileData;
+	}
+	
+	public int[][] getTileData()
+	{
+		if(this.tileData==null)
+		{
+			this.tileData=findTileData(this);
+		}
+		return this.tileData;
+	}
+	
+	private static int[][] findTileData(ScreenTile tile)
+	{
+		int tileArray[][] = new int[ScreenTile.getArraysize()][ScreenTile.getArraysize()];
+		BufferedImage tileImage =tile.getImage();
+		for(int y=0; y<tileImage.getHeight(); y+=4)
+		{
+			for(int x=0; x<tileImage.getWidth(); x+=4)
 			{
-				tileArray[y][x]=String.format("%06d",tile.getImage().getRGB(x, y));
+				String tileString=String.format("%06d",tile.getImage().getRGB(x, y));
+				System.out.println(tileString);
+				int tileInt=Integer.parseInt(tileString);
+				tileArray[y/4][x/4]= tileInt;
 			}
 		}
 		return tileArray;
 	}
 	
-	public String[][] getTileData()
-	{
-		String tileArray[][] = new String[ScreenTile.getTilesize()][ScreenTile.getTilesize()];
-		BufferedImage tileImage =this.getImage();
-		for(int y=0; y<tileImage.getHeight(); y++)
-		{
-			for(int x=0; x<tileImage.getWidth(); x++)
-			{
-				tileArray[y][x]=String.format("%06d",this.getImage().getRGB(x, y));
-			}
-		}
-		return tileArray;
-	}
 //********************************************************************************************
 //Compare Tile Data
 //********************************************************************************************
-	public static boolean isRightSize(String tileData[][])
+	//TODO divide by 4 arraySize
+	public static boolean isRightSize(int tileData[][])
 	{
 		boolean isRightSize= false;
-		if(tileData.length ==tileSize && tileData[tileSize-1].length==tileSize)
+		if(tileData.length ==getArraysize() && tileData[getArraysize()-1].length==getArraysize())
 		{
 			isRightSize=true;
 		}
 		return isRightSize;
 	}
 	
-	public boolean isTileDataEqual(String tileData1[][]) throws InvalidTileException
+	public boolean isTileDataEqual(int tileData1[][]) throws InvalidTileException
 	{
-		String tileData2[][]=this.getTileData();
+		int tileData2[][]=this.getTileData();
 		return isTileDataEqual(tileData1, tileData2);
 			
 	}
 	
 	public boolean isTileDataEqual(ScreenTile tile) throws InvalidTileException
 	{
-		String tileData1[][] = this.getTileData();
-		String tileData2[][]= tile.getTileData();
+		int tileData1[][] = this.getTileData();
+		int tileData2[][]= tile.getTileData();
 		return isTileDataEqual(tileData1, tileData2);	
 	}
 	
-	public static boolean isTileDataEqual(String[][] tileData1, String[][] tileData2) throws InvalidTileException
+	
+	//TODO divide by 4
+	public static boolean isTileDataEqual(int[][] tileData1, int[][] tileData2) throws InvalidTileException
 	{
 		boolean equals = true;
 		if (isRightSize(tileData1)&&isRightSize(tileData2))
 		{
 			for(int y=0; y<tileData1.length; y++)
 			{
-				for(int x=0; x<tileData1[tileSize-1].length; x++)
+				for(int x=0; x<tileData1[getArraysize()-1].length; x++)
 				{
-					if(!tileData1[y][x].equals(tileData2[y][x]))
+					if(!(tileData1[y][x]==tileData2[y][x]))
 						equals=false;
 				}
 			}
@@ -204,6 +228,50 @@ public class ScreenTile {
 			
 	}
 	
+//********************************************************************************************
+//SoftCompare Tile Data
+//********************************************************************************************
+	public boolean isTileDataSoftEqual(int tileData1[][]) throws InvalidTileException
+	{
+		int tileData2[][]=this.getTileData();
+			return isTileDataSoftEqual(tileData1, tileData2);
+				
+	}
+		
+		public boolean isTileDataSoftEqual(ScreenTile tile) throws InvalidTileException
+		{
+			int tileData1[][] = this.getTileData();
+			int tileData2[][]= tile.getTileData();
+			return isTileDataEqual(tileData1, tileData2);	
+		}
+		
+		//TODO divide by 4
+		public static boolean isTileDataSoftEqual(int[][] tileData1, int[][] tileData2) throws InvalidTileException
+		{
+			boolean equals = true;
+			if (isRightSize(tileData1)&&isRightSize(tileData2))
+			{
+				int y=0; int x=0;
+				
+				while(y<tileData1.length)
+				{
+					outerloop:
+					while(x<tileData1[getArraysize()-1].length)
+					{
+						if(!(tileData1[y][x]==tileData2[y][x]))
+						{
+							equals=false;	
+							break outerloop;
+						}
+						x++;
+					}
+					y++;
+				}
+				return equals;
+			}
+			else throw new InvalidTileException("Tile data is the wrong size");
+				
+		}
 //****************************************************************************************
 //Row and Col Checkers
 //*****************************************************************************************
@@ -225,6 +293,7 @@ public class ScreenTile {
 		else return true;
 	}
 	
+	
 //***************************************************************************************
 //Getters and Setters
 //***************************************************************************************
@@ -245,6 +314,9 @@ public class ScreenTile {
 		return tileSize;
 	}
 
+	public static int getArraysize() {
+		return arraySize;
+	}
 	public static int getMaxscreentilerow() {
 		return maxScreenTileRow;
 	}
@@ -252,4 +324,13 @@ public class ScreenTile {
 	public static int getMaxscreentilecol() {
 		return maxScreenTileCol;
 	}
+	@Override
+	public String toString()
+	{
+		String string="Tile";
+		return string;	
+		
+	}
+
+	
 }

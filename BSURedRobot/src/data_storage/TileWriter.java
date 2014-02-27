@@ -13,7 +13,7 @@ public class TileWriter {
 	{
 		
 		String fileLocation=System.getProperty("user.dir")+"/tileData/"+tileName+".txt";
-		String[][] tileData=tile.getTileData();
+		int[][] tileData=tile.getTileData();
 		File file =new File(fileLocation);
 		if(!file.exists()){
 			file.createNewFile();
@@ -25,7 +25,7 @@ public class TileWriter {
 	    	
 	    	for(int y=0; y<tileData.length; y++)
 	    	{
-	    		for(int x=0; x<tileData[ScreenTile.getTilesize()-1].length; x++)
+	    		for(int x=0; x<tileData[ScreenTile.getArraysize()-1].length; x++)
 	    		{
 	    			content+=tileData[y][x];
 	    			content+=" ";

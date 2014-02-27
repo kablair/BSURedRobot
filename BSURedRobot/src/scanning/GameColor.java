@@ -2,6 +2,8 @@ package scanning;
 
 import java.awt.Color;
 
+import exceptions.InvalidGameColorException;
+
 /**
  * GameColors are the colors that appear in the game. All possible Colors are listed
  */
@@ -11,13 +13,20 @@ public enum GameColor {
 			99), gameBlack(57, 57, 41);
 
 	private final Color color;
+	private final int rgb;
 
 	private GameColor(int r, int g, int b) {
 		this.color = new Color(r, g, b);
+		this.rgb= this.color.getRGB();
 	}
 
 	Color getColor() {
 		return this.color;
+	}
+	
+	public int getRGB()
+	{
+		return rgb;
 	}
 	
 	/**
@@ -33,6 +42,26 @@ public enum GameColor {
 			}
 		}
 		return isGameColor;
+	}
+	
+	public static GameColor getGameColor(int rgb) throws InvalidGameColorException
+	{
+		for(GameColor gameColor:GameColor.values())
+		{
+			if(rgb==gameColor.getRGB())
+			return gameColor;
+		}
+			throw new InvalidGameColorException();
+	}
+	
+	public static GameColor getGameColor(Color color) throws InvalidGameColorException
+	{
+		for(GameColor gameColor:GameColor.values())
+		{
+			if(gameColor.equals(color))
+			return gameColor;
+		}
+			throw new InvalidGameColorException();
 	}
 	
 
