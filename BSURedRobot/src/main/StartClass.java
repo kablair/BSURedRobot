@@ -23,12 +23,12 @@ public class StartClass {
 		ScannerMain.initialize();
 
 		try {
-			ScreenTile tile = ScannerMain.getScreenTile(5, 4);
-			TileWriter.writeTile(tile, "sample");
-			System.out.println(TileReader.loadTileData("sample"));
-			tile = new ScreenTile(TileReader.loadTileData("sample"));
+			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
+			TileWriter.writeTile(tile);
+			System.out.println(TileReader.loadTileData("sample1"));
+			tile = new ScreenTile(TileReader.loadTileData("sample1"));
 			//FrameMain frame = new FrameMain();
-			MazeMain.openMazeFrame();
+			//MazeMain.openMazeFrame();
 			TileProcessingMain.checkTile();
 	
 		} catch (IOException e) {

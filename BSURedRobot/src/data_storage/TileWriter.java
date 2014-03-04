@@ -9,12 +9,37 @@ import scanning.ScreenTile;
 
 public class TileWriter {
 
+	private static int count=0;
+	public static void writeTile(ScreenTile tile) throws IOException
+	{
+		String base ="sample";
+		String name = base;
+		File file;
+		do
+		{
+			count++;
+			name=base+count;
+			String fileLocation=System.getProperty("user.dir")+"/tileData/"+name+".txt";
+			file =new File(fileLocation);
+		}
+		while(file.exists());
+
+		writeTile(tile, name);
+	}
+	
+	
 	public static void writeTile(ScreenTile tile, String tileName) throws IOException
 	{
 		
 		String fileLocation=System.getProperty("user.dir")+"/tileData/"+tileName+".txt";
+		String tileListLocation=System.getProperty("user.dir")+"/tileData/tileList.txt";
 		int[][] tileData=tile.getTileData();
 		File file =new File(fileLocation);
+		File listFile =new File(tileListLocation);
+		if(!listFile.exists())
+		{
+			listFile.createNewFile();
+		}
 		if(!file.exists()){
 			file.createNewFile();
 			//Here true is to append the content to file
@@ -38,6 +63,12 @@ public class TileWriter {
 	     
 	    	bw.close();
 	    	fw.close();
+	    	
+	    	FileWriter fw2 = new FileWriter(listFile, true);
+	    	BufferedWriter bw2 = new BufferedWriter(fw2);
+	    	bw2.write(tileName+"\n");
+	    	bw2.close();
+	    	fw2.close();
 		}
 		else
 			System.out.println("File already exists");

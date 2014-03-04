@@ -15,11 +15,11 @@ public class TileProcessingMain {
 	{
 		
 			long startTime = System.nanoTime();
-			ScreenTile tile = TileReader.loadTile("sample");
+			ScreenTile tile = TileReader.loadTile("sample1");
 			ScreenTile tile2 = ScannerMain.getScreenTile(5, 5);
 			ScreenTile[][] tiles = ScannerMain.getScreenTiles();
-			System.out.println(tiles[4][4].isTileDataEqual(tile2));
-			System.out.println(tiles[4][4].isTileDataEqual(tile));
+			System.out.println(tiles[4][4].equals(tile2));
+			System.out.println(tiles[4][4].equals(tile));
 			
 			
 			

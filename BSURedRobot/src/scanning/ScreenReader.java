@@ -12,22 +12,9 @@ import exceptions.InvalidTileException;
 /**Reads Pixels from screen, or captures images*/
 public class ScreenReader {
 
-	public static Color scanPixelColor(Point p)
-	{
-		try {
-			Robot robot=new Robot();
-			int x= (int) p.getX();
-			int y= (int) p.getY();
-			Color color = robot.getPixelColor(x,y);
-			return color;
-		} catch (AWTException e) {
-			e.printStackTrace();
-		}
-		return null;
-		
-	
-	}
-	
+//**************************************************************************************
+//Screencap or ScreenRectCap
+//**************************************************************************************	
 	public static BufferedImage createScreenCapture(Rectangle screenRect)
 	{
 		try {
@@ -44,30 +31,20 @@ public class ScreenReader {
 //*************************************************************************************
 //ScreenTiles
 //*************************************************************************************
-	public static ScreenTile readScreenTile(int screenTileX, int screenTileY) throws InvalidTileException
-	{
-		ScreenTile screenTile = new ScreenTile(screenTileX, screenTileY);
-		Rectangle tileRect = ScreenTile.getTileRect(screenTileX, screenTileY);
-		//Rectangle tileRect =screenTile.getTileRectangle();
-		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
-		screenTile.setImage(tileImage);
-		//screenTile.getIdentity()
-		return screenTile;
-	}
-	public static BufferedImage readTileImage(ScreenTile tile) throws InvalidTileException
-	{
-		Rectangle tileRect = tile.getTileRect();
-		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
-		return tileImage;
-	}
+	
 	public static BufferedImage readTileImage(int tileRow, int tileCol) throws InvalidTileException
 	{
-		ScreenTile tile = new ScreenTile(tileRow, tileCol);
-		Rectangle tileRect = tile.getTileRect();
+		Rectangle tileRect = ScreenTile.getTileRect(tileRow, tileCol);
 		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
 		return tileImage;
 	}
-
+	
+	public static ScreenTile readScreenTile(int tileRow, int tileCol) throws InvalidTileException
+	{
+		BufferedImage tileImage = readTileImage(tileRow, tileCol);
+		ScreenTile screenTile = new ScreenTile(tileImage);
+		return screenTile;
+	}
 	
 	public static ScreenTile[][] readScreenTiles() throws InvalidTileException
 	{
@@ -78,7 +55,7 @@ public class ScreenReader {
 		{
 			for(int x=0; x<maxRow-1; x++)
 			{
-				screenTiles[y][x]=new ScreenTile(x,y);
+				screenTiles[y][x]=readScreenTile(x, y);
 			}
 		}
 		return screenTiles;
@@ -86,7 +63,7 @@ public class ScreenReader {
 	
 	
 //******************************************************************************************
-//Mouse
+//Basic Testing Methods
 //******************************************************************************************
 	public static Point getPointerLocation()
 	{
@@ -100,5 +77,19 @@ public class ScreenReader {
 			return color;
 	}
 	
+	public static Color scanPixelColor(Point p)
+	{
+		try {
+			Robot robot=new Robot();
+			int x= (int) p.getX();
+			int y= (int) p.getY();
+			Color color = robot.getPixelColor(x,y);
+			return color;
+		} catch (AWTException e) {
+			e.printStackTrace();
+		}
+		return null;
+	
+	}
 
 }

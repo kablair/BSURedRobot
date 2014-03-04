@@ -7,15 +7,13 @@ import java.awt.image.BufferedImage;
 import exceptions.InvalidTileException;
 import exceptions.ScanningDisabledException;
 
-/**A class that represents an in-game tile. Contains an image, and sometimes row and col**/
+/**A class that represents an in-game tile. Contains an image and its tileData**/
 public class ScreenTile {
 
 	private static final int maxScreenTileRow=9;
 	private static final int maxScreenTileCol=8;
 	private static final int tileSize=64;
 	private static final int arraySize=tileSize/4;
-	private int screenTileRow;
-	private int screenTileCol;
 	private BufferedImage image;
 	private int tileData[][];
 	//Null image exception?
@@ -40,27 +38,7 @@ public class ScreenTile {
 			throw new InvalidTileException("Tile data is the wrong size.");
 		}
 	}
-	
-	/**A class that represents an in-game tile. Contains an image, row, and col.
-	 * @param int screenTileRow
-	 * @param int screenTileCol**/
-	public ScreenTile(int screenTileRow, int screenTileCol) throws InvalidTileException {
-		setScreenTileRow(screenTileRow);
-		setScreenTileCol(screenTileCol);
-		setImage(ScreenReader.readTileImage(this));
-	}
 
-	/**A class that represents an in-game tile. Contains an image, row, and col.
-	 * @param int screenTileRow
-	 * @param int screenTileCol
-	 * @param BufferedImage image**/
-	public ScreenTile(int screenTileRow, int screenTileCol, BufferedImage image) throws InvalidTileException
-	{
-		setScreenTileRow(screenTileRow);
-		setScreenTileCol(screenTileCol);
-		setImage(image);
-	}
-	
 	public void setImage(BufferedImage image) throws InvalidTileException
 	{
 		if(image.getWidth()==tileSize &&image.getHeight()==tileSize)
@@ -70,23 +48,7 @@ public class ScreenTile {
 		else throw new InvalidTileException("Tile image has invalid dimensions");
 	}
 	
-	public void setScreenTileRow(int screenTileRow) throws InvalidTileException
-	{
-		if(isInRowBounds(screenTileRow))
-		{
-			this.screenTileRow=screenTileRow;
-		}
-		else throw new InvalidTileException("Tile row is out of bounds");
-	}
-	
-	public void setScreenTileCol(int screenTileCol) throws InvalidTileException
-	{
-		if(isInColBounds(screenTileCol))
-		{
-			this.screenTileCol=screenTileCol;
-		}
-		else throw new InvalidTileException("Tile column is out of bounds");
-	}
+
 //**********************************************************************************
 //Get Tile Location
 //**********************************************************************************
@@ -109,23 +71,9 @@ public class ScreenTile {
 		return tileLocation;
 	}
 	
-	public Point getTileLocation()
-	{
-		return ScreenTile.getTileLocation(getScreenTileRow(), getScreenTileCol());
-	}
 //************************************************************************************
 //Get Tile Rect
 //************************************************************************************
-	public Rectangle getTileRect()
-	{
-		Rectangle tileRect = new Rectangle();
-		Point tilePoint=this.getTileLocation();
-		int screenX= tilePoint.x;
-		int screenY= tilePoint.y;
-		tileRect.setBounds(screenX, screenY, tileSize, tileSize);
-		return tileRect;
-	}
-	
 	public static Rectangle getTileRect(int screenTileRow, int screenTileCol) throws InvalidTileException
 	{
 		if(isInRowBounds(screenTileRow) && isInColBounds(screenTileCol))
@@ -190,21 +138,23 @@ public class ScreenTile {
 		return isRightSize;
 	}
 	
-	
-	public static boolean isTileDataEqual(ScreenTile tile, ScreenTile tile2) throws InvalidTileException
+//*******************************************************************************************
+//Compare to other ScreenTiles
+//*******************************************************************************************
+	public static boolean equals(ScreenTile tile, ScreenTile tile2) throws InvalidTileException
 	{
 		int[][] tileData1 = tile.getTileData();
 		int[][] tileData2 = tile2.getTileData();
-		return isTileDataEqual(tileData1, tileData2);
+		return equals(tileData1, tileData2);
 	}
 	
-	public static boolean isTileDataEqual(ScreenTile tile1, int[][] tileData2) throws InvalidTileException
+	public static boolean equals(ScreenTile tile1, int[][] tileData2) throws InvalidTileException
 	{
 		int[][] tileData1 = tile1.getTileData();
-		return isTileDataEqual(tileData1, tileData2);
+		return equals(tileData1, tileData2);
 	}
 	
-	public static boolean isTileDataEqual(int[][] tileData1, int[][] tileData2) throws InvalidTileException
+	public static boolean equals(int[][] tileData1, int[][] tileData2) throws InvalidTileException
 	{
 		boolean equals = true;
 		if (ScreenTile.isRightSize(tileData1)&&ScreenTile.isRightSize(tileData2))
@@ -223,11 +173,11 @@ public class ScreenTile {
 			
 	}
 	
-	public boolean isTileDataEqual(ScreenTile tile) throws InvalidTileException
+	public boolean equals(ScreenTile tile) throws InvalidTileException
 	{
 		int[][] tileData1 = this.getTileData();
 		int[][] tileData2 = tile.getTileData();
-		return isTileDataEqual(tileData1, tileData2);
+		return equals(tileData1, tileData2);
 	}
 
 //****************************************************************************************
@@ -255,15 +205,6 @@ public class ScreenTile {
 //***************************************************************************************
 //Getters and Setters
 //***************************************************************************************
-	public int getScreenTileRow()
-	{
-		return screenTileRow;
-	}
-	
-	public int getScreenTileCol()
-	{
-		return screenTileCol;
-	}
 	private BufferedImage getImage()
 	{
 		return image;
