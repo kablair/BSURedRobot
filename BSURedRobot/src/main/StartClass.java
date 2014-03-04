@@ -12,6 +12,7 @@ import exceptions.ScanningDisabledException;
 import frame.FrameMain;
 import scanning.ScannerMain;
 import scanning.ScreenTile;
+import tests.ScreenTileTest;
 import tile_processing.TileCompressor;
 import tile_processing.TileProcessingMain;
 
@@ -25,6 +26,7 @@ public class StartClass {
 		try {
 			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
 			TileWriter.writeTile(tile);
+			ScreenTileTest.testTiles();
 			System.out.println(TileReader.loadTileData("sample1"));
 			tile = new ScreenTile(TileReader.loadTileData("sample1"));
 			//FrameMain frame = new FrameMain();
