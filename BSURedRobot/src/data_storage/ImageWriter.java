@@ -38,7 +38,6 @@ public class ImageWriter {
 	{
 		int tileMultiplier = ScreenTile.getTilesize()/ScreenTile.getArraysize();
 		BufferedImage image = new BufferedImage(pixels.length*tileMultiplier, pixels[0].length*tileMultiplier, BufferedImage.TYPE_INT_RGB);
-		System.out.println(image.getHeight());
 		for(int y=0; y<pixels[0].length; y++)
 		{
 			for(int x=0; x<pixels.length; x++)

@@ -1,6 +1,7 @@
 package tile_processing;
 
 import java.io.IOException;
+import java.util.BitSet;
 
 import data_storage.TileReader;
 import exceptions.InvalidGameColorException;
@@ -12,21 +13,34 @@ public class TileCompressor {
 
 	
 	
-	public static void compress(ScreenTile tile) throws IOException, InvalidTileException
+	public static void compress(ScreenTile tile) throws IOException, InvalidTileException, InvalidGameColorException
 	
 	{
 		int[][] data = tile.getTileData();
 		
-		int colorInt=0;
+		BitSet colorBits;
 
-		try {
-			System.out.println(GameColor.getGameColor(data[5][5]));
-		} catch (NumberFormatException | InvalidGameColorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//
+//		for(int n=0; n<data[5].length; n++)
+//		{
+//			colorBits.
+//			colorInt+=GameColor.getGameColor(data[5][n]).getId();
+//			colorInt*=4;
+//			System.out.println(colorInt);
+//		}
+//		colorInt=4^16;
+//		System.out.println(colorInt);
+//			
+		
 	}
+	//0000
+	//0001
+	//0010
+	//0011
 	
+	//01
+	//02
+	//03
 //	public static int getGameColor(int[] hexRow)
 //	{
 //		

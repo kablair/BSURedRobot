@@ -22,7 +22,7 @@ public class ScannerMain {
 		
 			GameScreenLocator.initialize();
 			setGameScreenLocation();
-
+			
 	//		setScreenTiles();
 //			ScreenTile tile1 = new ScreenTile(4,2);
 //			TileWriter.writeTile(tile1, "oakhead2");

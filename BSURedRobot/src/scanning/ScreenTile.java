@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import exceptions.InvalidTileException;
 import exceptions.ScanningDisabledException;
 
-/**A class that represents an in-game tile. Contains an image, row, and col.**/
+/**A class that represents an in-game tile. Contains an image, and sometimes row and col**/
 public class ScreenTile {
 
 	private static final int maxScreenTileRow=9;
@@ -18,7 +18,6 @@ public class ScreenTile {
 	private int screenTileCol;
 	private BufferedImage image;
 	private int tileData[][];
-	private int tileId[];
 	//Null image exception?
 	
 
@@ -181,7 +180,6 @@ public class ScreenTile {
 //********************************************************************************************
 //Compare Tile Data
 //********************************************************************************************
-	//TODO divide by 4 arraySize
 	public static boolean isRightSize(int tileData[][])
 	{
 		boolean isRightSize= false;
@@ -192,30 +190,28 @@ public class ScreenTile {
 		return isRightSize;
 	}
 	
-	public boolean isTileDataEqual(int tileData1[][]) throws InvalidTileException
+	
+	public static boolean isTileDataEqual(ScreenTile tile, ScreenTile tile2) throws InvalidTileException
 	{
-		int tileData2[][]=this.getTileData();
+		int[][] tileData1 = tile.getTileData();
+		int[][] tileData2 = tile2.getTileData();
 		return isTileDataEqual(tileData1, tileData2);
-			
 	}
 	
-	public boolean isTileDataEqual(ScreenTile tile) throws InvalidTileException
+	public static boolean isTileDataEqual(ScreenTile tile1, int[][] tileData2) throws InvalidTileException
 	{
-		int tileData1[][] = this.getTileData();
-		int tileData2[][]= tile.getTileData();
-		return isTileDataEqual(tileData1, tileData2);	
+		int[][] tileData1 = tile1.getTileData();
+		return isTileDataEqual(tileData1, tileData2);
 	}
 	
-	
-	//TODO divide by 4
 	public static boolean isTileDataEqual(int[][] tileData1, int[][] tileData2) throws InvalidTileException
 	{
 		boolean equals = true;
-		if (isRightSize(tileData1)&&isRightSize(tileData2))
+		if (ScreenTile.isRightSize(tileData1)&&ScreenTile.isRightSize(tileData2))
 		{
-			for(int y=0; y<tileData1.length; y++)
+			for(int y=0; y<tileData1.length && equals; y++)
 			{
-				for(int x=0; x<tileData1[getArraysize()-1].length; x++)
+				for(int x=0; x<tileData1[ScreenTile.getArraysize()-1].length &&equals; x++)
 				{
 					if(!(tileData1[y][x]==tileData2[y][x]))
 						equals=false;
@@ -227,50 +223,13 @@ public class ScreenTile {
 			
 	}
 	
-//********************************************************************************************
-//SoftCompare Tile Data
-//********************************************************************************************
-	public boolean isTileDataSoftEqual(int tileData1[][]) throws InvalidTileException
+	public boolean isTileDataEqual(ScreenTile tile) throws InvalidTileException
 	{
-		int tileData2[][]=this.getTileData();
-			return isTileDataSoftEqual(tileData1, tileData2);
-				
+		int[][] tileData1 = this.getTileData();
+		int[][] tileData2 = tile.getTileData();
+		return isTileDataEqual(tileData1, tileData2);
 	}
-		
-		public boolean isTileDataSoftEqual(ScreenTile tile) throws InvalidTileException
-		{
-			int tileData1[][] = this.getTileData();
-			int tileData2[][]= tile.getTileData();
-			return isTileDataEqual(tileData1, tileData2);	
-		}
-		
-		//TODO divide by 4
-		public static boolean isTileDataSoftEqual(int[][] tileData1, int[][] tileData2) throws InvalidTileException
-		{
-			boolean equals = true;
-			if (isRightSize(tileData1)&&isRightSize(tileData2))
-			{
-				int y=0; int x=0;
-				
-				while(y<tileData1.length)
-				{
-					outerloop:
-					while(x<tileData1[getArraysize()-1].length)
-					{
-						if(!(tileData1[y][x]==tileData2[y][x]))
-						{
-							equals=false;	
-							break outerloop;
-						}
-						x++;
-					}
-					y++;
-				}
-				return equals;
-			}
-			else throw new InvalidTileException("Tile data is the wrong size");
-				
-		}
+
 //****************************************************************************************
 //Row and Col Checkers
 //*****************************************************************************************
@@ -305,7 +264,7 @@ public class ScreenTile {
 	{
 		return screenTileCol;
 	}
-	public BufferedImage getImage()
+	private BufferedImage getImage()
 	{
 		return image;
 	}
