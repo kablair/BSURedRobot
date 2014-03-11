@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import data_storage.ImageWriter;
+import data_storage.TileDialog;
 import data_storage.TileReader;
 
 public class FrameMain extends JFrame implements WindowListener{

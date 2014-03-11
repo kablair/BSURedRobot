@@ -10,21 +10,34 @@ import scanning.ScreenTile;
 public class TileWriter {
 
 	private static int count=0;
-	public static void writeTile(ScreenTile tile) throws IOException
-	{
-		String base ="sample";
-		String name = base;
-		File file;
-		do
-		{
-			count++;
-			name=base+count;
-			String fileLocation=System.getProperty("user.dir")+"/tileData/"+name+".txt";
-			file =new File(fileLocation);
-		}
-		while(file.exists());
 
-		writeTile(tile, name);
+	public static void writeTile(ScreenTile tile, boolean menu) throws IOException
+	{
+		String name="";
+		if(menu)
+		{
+			new TileDialog(tile.getImage());
+			
+		}
+	
+		else
+		{	
+			String base ="sample";
+			name = base;
+			File file;
+			do
+			{
+				count++;
+				name=base+count;
+				String fileLocation=System.getProperty("user.dir")+"/tileData/"+name+".txt";
+				file =new File(fileLocation);
+			}
+			while(file.exists());
+			
+			writeTile(tile, name);
+
+		}
+		
 	}
 	
 	

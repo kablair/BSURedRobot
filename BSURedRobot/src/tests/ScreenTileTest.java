@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import scanning.ScannerMain;
 import scanning.ScreenTile;
+import data_storage.ImageWriter;
+import data_storage.TileDialog;
 import data_storage.TileReader;
 import data_storage.TileWriter;
 import exceptions.InvalidTileException;
@@ -22,6 +24,8 @@ public class ScreenTileTest {
 		System.out.println("Tile Reading and writing is working: "+ tile2.equals(tile));
 		ScreenTile tile3= ScannerMain.getScreenTile(0, 0);
 		System.out.println("The equals method gives false positives: " + tile3.equals(tile));
+		
+		TileDialog dialog =new TileDialog(ImageWriter.writeImage(TileReader.loadTile("testTile").getTileData(), true));
 	}
 
 	

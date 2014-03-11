@@ -205,7 +205,7 @@ public class ScreenTile {
 //***************************************************************************************
 //Getters and Setters
 //***************************************************************************************
-	private BufferedImage getImage()
+	public BufferedImage getImage()
 	{
 		return image;
 	}

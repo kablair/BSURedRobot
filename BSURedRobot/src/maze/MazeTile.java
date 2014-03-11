@@ -12,6 +12,7 @@ public enum MazeTile {
 	path(Color.yellow, false, false), 
 	grass(Color.green, false, false), 
 	ledge(Color.orange, false, true),// if y<ledge it is passable, otherwise it is not
+	door(Color.white),
 	unknown(Color.darkGray), 
 	unknownTopBlocked(Color.darkGray, true),
 	unseen(Color.black);

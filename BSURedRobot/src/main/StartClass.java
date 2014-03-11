@@ -15,6 +15,7 @@ import scanning.ScreenTile;
 import tests.ScreenTileTest;
 import tile_processing.TileCompressor;
 import tile_processing.TileProcessingMain;
+import world_tiles.WorldTilesMain;
 
 public class StartClass {
 
@@ -24,13 +25,23 @@ public class StartClass {
 		ScannerMain.initialize();
 
 		try {
-			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
-			TileWriter.writeTile(tile);
-			ScreenTileTest.testTiles();
-			System.out.println(TileReader.loadTileData("sample1"));
-			tile = new ScreenTile(TileReader.loadTileData("sample1"));
+//			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
+//			TileWriter.writeTile(tile);
+			//ScreenTileTest.testTiles();
 			//FrameMain frame = new FrameMain();
 			//MazeMain.openMazeFrame();
+			//for(int y=0; y<ScannerMain.gameHeight; y++)
+			//{
+			//	for(int x=0; x<ScannerMain.gameWidth; x++)
+				//{
+					//ScreenTile tile = ScannerMain.getScreenTile(1, 5);
+					//TileWriter.writeTile(tile, false);
+					ScreenTile tile2 = ScannerMain.getScreenTile(1, 6);
+					TileWriter.writeTile(tile2, true);
+				//	WorldTilesMain.addNewTile(tile);
+			//	}
+			//}
+			
 			TileProcessingMain.checkTile();
 	
 		} catch (IOException e) {

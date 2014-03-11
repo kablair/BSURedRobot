@@ -9,6 +9,9 @@ public class WorldTilesMain {
 
 	static ArrayList<WorldTile> worldTiles= new ArrayList<WorldTile>();
 
+
+	
+	
 	public static void addNewTile(ScreenTile tile) throws InvalidTileException
 	{
 		boolean equals = false;
