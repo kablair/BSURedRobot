@@ -29,7 +29,6 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 	private JPanel dialogPanel;
 	JPanel textPanel;
 	private BufferedImage image;
-	private int tileData[][];
 	private String tileName;
 	private int closeCount=0; // windowClosed is firing twice for some reason; this is meant to make sure closing code is used once only.
 	
@@ -42,7 +41,6 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 
 		super.setPreferredSize(preferredSize);
 		tileName="";
-		this.tileData=null;
 		this.image=image;
 		setDialogPanel();
 		getContentPane().add(dialogPanel);
@@ -59,7 +57,6 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 		super(frame, "Tile Discovery", false);
 		super.setPreferredSize(preferredSize);
 		tileName="";
-		this.tileData=null;
 		this.image=image;
 		setDialogPanel();
 		getContentPane().add(dialogPanel);
@@ -68,39 +65,7 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
         setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-	
-	public TileDialog(int[][] data)
-	{
-		
 
-		super.setPreferredSize(preferredSize);
-		tileName="";
-		this.tileData=data;
-		this.image=ImageWriter.writeImage(tileData, true);
-		setDialogPanel();
-		getContentPane().add(dialogPanel);
-        pack();
-        setVisible(true);
-        this.addWindowListener(this);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
-	
-	
-	public TileDialog(JFrame frame, int[][] data)
-	{
-		
-		super(frame, "Tile Discovery", false);
-		super.setPreferredSize(preferredSize);
-		tileName="";
-		this.tileData=data;
-		this.image=ImageWriter.writeImage(tileData, true);
-		setDialogPanel();
-		getContentPane().add(dialogPanel);
-        pack();
-        setLocationRelativeTo(frame);
-        setVisible(true);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
 	
 	public void setDialogPanel()
 	{
@@ -189,14 +154,9 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 				{
 					if(!tileName.isEmpty())
 					{
-						//if(tileData!=null)
-						//{
-							TileWriter.writeTile(new ScreenTile(tileData), tileName);
-						//}
-						//else
-						//{
-						//	TileWriter.writeTile(new ScreenTile(image), tileName);
-						//}
+						
+						TileWriter.writeTile(new ScreenTile(image), tileName);
+				
 					}
 				} 
 				catch (IOException | InvalidTileException e1) 
