@@ -3,8 +3,6 @@ package data_storage;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -19,7 +17,7 @@ import scanning.ScreenTile;
 import exceptions.InvalidTileException;
 import frame.ImagePanel;
 
-public class TileDialog extends JDialog implements WindowListener, ActionListener{
+public class TileDialog extends JDialog implements ActionListener{
 
 	private static final long serialVersionUID = 732283671303623728L;
 	private static final String submitAction= "Submit";
@@ -30,10 +28,10 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 	JPanel textPanel;
 	private BufferedImage image;
 	private String tileName;
-	private int closeCount=0; // windowClosed is firing twice for some reason; this is meant to make sure closing code is used once only.
 	
 	private JTextField dialogTextField;
-	private JButton dialogButton;
+	private JButton submitButton;
+
 	
 	public TileDialog(BufferedImage image)
 	{
@@ -46,7 +44,6 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 		getContentPane().add(dialogPanel);
         pack();
         setVisible(true);
-        this.addWindowListener(this);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 	
@@ -77,72 +74,16 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 		imagePanel.setBounds(3,5, 65,70 );
 		dialogTextField = new JTextField();
 		dialogTextField.setBounds(78, 55, 122, 20);
-		dialogButton = new JButton("Submit");
-		dialogButton.setBounds(220, 55, 75, 20);
-		dialogButton.addActionListener(this);
-		dialogButton.setActionCommand(submitAction);
+		submitButton = new JButton("Submit");
+		submitButton.setBounds(220, 55, 75, 20);
+		submitButton.addActionListener(this);
+		submitButton.setActionCommand(submitAction);
 		dialogPanel.add(dialogLabel);
 		dialogPanel.add(imagePanel);
 		dialogPanel.add(dialogTextField);
-		dialogPanel.add(dialogButton);
+		dialogPanel.add(submitButton);
 		
 	}
-
-
-	@Override
-	public void windowOpened(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-	}
-
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		
-		if(tileName.isEmpty()&&closeCount==0)
-		{
-			try {
-				TileWriter.writeTile(new ScreenTile(image), false);
-			} 
-			catch (IOException | InvalidTileException e1) {
-				e1.printStackTrace();
-			}
-		}
-		closeCount++;
-	}
-
-
-	@Override
-	public void windowIconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void windowActivated(WindowEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {
-		
-	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -157,6 +98,10 @@ public class TileDialog extends JDialog implements WindowListener, ActionListene
 						
 						TileWriter.writeTile(new ScreenTile(image), tileName);
 				
+					}
+					else
+					{
+						TileWriter.writeTile(new ScreenTile(image), false);
 					}
 				} 
 				catch (IOException | InvalidTileException e1) 

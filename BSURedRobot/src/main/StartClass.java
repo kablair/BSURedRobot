@@ -20,9 +20,18 @@ import world_tiles.WorldTilesMain;
 public class StartClass {
 
 	
+	private static void initialize()
+	{
+		TileWriter.init();
+		ScannerMain.initialize();
+	}
+	
+	
+	
+	
 	public static void main(String args[])
 	{
-		ScannerMain.initialize();
+		StartClass.initialize();
 
 		try {
 //			ScreenTile tile = ScannerMain.getScreenTile(5, 5);

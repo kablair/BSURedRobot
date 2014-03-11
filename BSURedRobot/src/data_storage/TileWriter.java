@@ -11,6 +11,18 @@ public class TileWriter {
 
 	private static int count=0;
 
+	public static void init()
+	{
+		String fileLocation=System.getProperty("user.dir")+"/tileData/";
+		File file = new File(fileLocation);
+		if(!file.exists())
+			{
+				file.mkdirs();
+			}
+	}
+	
+	
+	
 	public static void writeTile(ScreenTile tile, boolean menu) throws IOException
 	{
 		String name="";
