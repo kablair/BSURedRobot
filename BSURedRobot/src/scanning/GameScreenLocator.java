@@ -43,14 +43,12 @@ public class GameScreenLocator {
 			Point botright= new Point();
 			Point partOfGame = findPartOfGame();
 			int y= findTopOfGameScreen(partOfGame);
-			System.out.println(y);
 			int x= findLeftOfGameScreen(partOfGame);
-			System.out.println(x);
 			topleft.setLocation(x, y);
-			System.out.println(Toolkit.getDefaultToolkit().getScreenSize());
+			System.out.println("Screen Size: " +Toolkit.getDefaultToolkit().getScreenSize());
 			botright.setLocation(x+ScannerMain.gameWidth-1, y+ScannerMain.gameHeight-1);
-			System.out.println(topleft);
-			System.out.println(botright);
+			System.out.println("TopLeft "+topleft);
+			System.out.println("BotRight "+botright);
 			/* Sometimes if the screen is partial, the predicted value of botright 
 			 * will be outside of screen. This is why we check here; it prevents an
 			 * out of bounds exception
