@@ -17,54 +17,66 @@ import scanning.ScreenTile;
 import exceptions.InvalidTileException;
 import frame.ImagePanel;
 
+
+
+
+/**Pops up a menu for the user to enter a tile name.<p>
+ * If the user submits a name, the tile will be saved with that name. <br>
+ * If the name already exists, the tile will NOT be saved<p>
+ * If the user submits a blank name, the tile will be saved with a generated name <p>
+ * The user can choose to NOT save the tile by clicking the exit button.<br>*/
+//TODO
+//Add a warning message if the tile name is taken. Allow overwrite
 public class TileDialog extends JDialog implements ActionListener{
 
 	private static final long serialVersionUID = 732283671303623728L;
+	private static final String title= "Tile Discovery";
 	private static final String submitAction= "Submit";
 	private static Dimension preferredSize = new Dimension(320,120);
-	//private BorderLayout borderLayout;
+
 	private ImagePanel imagePanel;
 	private JPanel dialogPanel;
 	JPanel textPanel;
-	private BufferedImage image;
-	private String tileName;
 	
+	private ScreenTile screenTile;
+	
+	private BufferedImage image;
+	//TODO try getting rid of this
+	private String tileName;
 	private JTextField dialogTextField;
 	private JButton submitButton;
 
-	
-	public TileDialog(BufferedImage image)
+	public TileDialog(ScreenTile tile)
 	{
-		
-
-		super.setPreferredSize(preferredSize);
-		tileName="";
-		this.image=image;
-		setDialogPanel();
-		getContentPane().add(dialogPanel);
-        pack();
-        setVisible(true);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setUp(tile);
 	}
 	
 	
-	public TileDialog(JFrame frame, BufferedImage image)
+	public TileDialog(JFrame frame, ScreenTile tile)
 	{
-		
-		super(frame, "Tile Discovery", false);
-		super.setPreferredSize(preferredSize);
-		tileName="";
-		this.image=image;
-		setDialogPanel();
-		getContentPane().add(dialogPanel);
-        pack();
+		super(frame, title, false);
+		setUp(tile);
         setLocationRelativeTo(frame);
+	}
+
+	/**Initializes dialog. Can be used with all constructors.*/
+	private void setUp(ScreenTile tile)
+	{
+		this.setTitle(title);
+		super.setPreferredSize(preferredSize);
+		this.screenTile=tile;
+		this.image=tile.getImage();
+		tileName="";
+		setDialogPanel();
+		getContentPane().add(dialogPanel);
+        pack();
         setVisible(true);
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-
 	
-	public void setDialogPanel()
+	
+	/**Arranges components on dialogPanel*/
+	private void setDialogPanel()
 	{
 		dialogPanel = new JPanel();
 		dialogPanel.setLayout(null);
@@ -87,31 +99,31 @@ public class TileDialog extends JDialog implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if(e.getActionCommand().equals(submitAction))
 		{
 			tileName=dialogTextField.getText();
-				System.out.println(tileName);
-				try 
+			System.out.println(tileName);
+			try 
+			{
+				if(!tileName.isEmpty())
 				{
-					if(!tileName.isEmpty())
-					{
-						
-						TileWriter.writeTile(new ScreenTile(image), tileName);
+					TileWriter.writeTile(screenTile, tileName);
 				
-					}
-					else
-					{
-						TileWriter.writeTile(new ScreenTile(image), false);
-					}
-				} 
-				catch (IOException | InvalidTileException e1) 
-				{
-					e1.printStackTrace();
 				}
+				else
+				{
+					TileWriter.writeTile(screenTile, false);
+				}
+			} 
+			catch (IOException e1) 
+			{
+				e1.printStackTrace();
+			}
+			
 			this.setVisible(false);
 			this.dispose();
-		
-		
+			
 		}
 		
 	}

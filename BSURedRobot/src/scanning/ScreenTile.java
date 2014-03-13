@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
+import data_storage.ImageWriter;
 import exceptions.InvalidTileException;
 import exceptions.ScanningDisabledException;
 
@@ -30,9 +31,13 @@ public class ScreenTile {
 	
 /**A class that represents an in-game tile. Contains an image, row, and col.
 	 * @param BufferedImage image*/
+
 	public ScreenTile(int[][] tileData) throws InvalidTileException {
 		if(isRightSize(tileData))
-			this.tileData=tileData;
+			{
+				this.tileData=tileData;
+				image=null;
+			}
 		else
 		{
 			throw new InvalidTileException("Tile data is the wrong size.");
@@ -205,8 +210,14 @@ public class ScreenTile {
 //***************************************************************************************
 //Getters and Setters
 //***************************************************************************************
+	
 	public BufferedImage getImage()
 	{
+		if(image==(null))
+		{
+			image = ImageWriter.writeImage(tileData, true);
+		}
+		
 		return image;
 	}
 	public static int getTilesize() {

@@ -21,6 +21,7 @@ import data_storage.TileReader;
 public class FrameMain extends JFrame implements WindowListener{
 	private static final long serialVersionUID = 157572953151107392L;
 	private static TextPanel textPanel = new TextPanel();
+	private static ButtonPanel buttonPanel = new ButtonPanel();
 	//Goals: Rename tiles from default
 	//Choose AI pattern
 	//Pause/Start Actions
@@ -32,14 +33,11 @@ public class FrameMain extends JFrame implements WindowListener{
 		this.setLayout(new GridLayout(2,1));
 		this.setPreferredSize(new Dimension(400,500));
 		this.add(textPanel);
+		this.add(buttonPanel);
 		this.pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		try {
-			TileDialog dialog = new TileDialog(this, ImageWriter.writeImage(TileReader.loadTileData("sample"),true));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		
 	
 		
 	}

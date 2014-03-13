@@ -64,6 +64,7 @@ public class TileReader {
 			{
 				tileData[y][x] =Integer.parseInt(values[x]);
 			}
+		
 		}
 		
 	      br.close();

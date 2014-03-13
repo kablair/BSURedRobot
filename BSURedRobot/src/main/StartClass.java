@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import maze.MazeFrame;
 import maze.MazeMain;
+import data_storage.DataStorageMain;
 import data_storage.TileReader;
 import data_storage.TileWriter;
 import exceptions.InvalidGameColorException;
@@ -11,9 +12,11 @@ import exceptions.InvalidTileException;
 import exceptions.ScanningDisabledException;
 import frame.FrameMain;
 import scanning.ScannerMain;
+import scanning.ScreenReader;
 import scanning.ScreenTile;
 import tests.ScreenTileTest;
 import tile_processing.TileCompressor;
+import tile_processing.TileLoader;
 import tile_processing.TileProcessingMain;
 import world_tiles.WorldTilesMain;
 
@@ -22,7 +25,7 @@ public class StartClass {
 	
 	private static void initialize()
 	{
-		TileWriter.init();
+		DataStorageMain.initialize();
 		ScannerMain.initialize();
 	}
 	
@@ -34,9 +37,11 @@ public class StartClass {
 		StartClass.initialize();
 
 		try {
-//			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
-//			TileWriter.writeTile(tile);
-			//ScreenTileTest.testTiles();
+			//TileWriter.writeTile(ScreenReader.readScreenTile(5, 5), true);
+			//TileLoader.loadScreen();
+			//ScreenTile tile = ScannerMain.getScreenTile(5, 5);
+			//TileWriter.writeTile(tile,true);
+			ScreenTileTest.testTiles();
 			//FrameMain frame = new FrameMain();
 			//MazeMain.openMazeFrame();
 			//for(int y=0; y<ScannerMain.gameHeight; y++)
@@ -45,8 +50,8 @@ public class StartClass {
 				//{
 					//ScreenTile tile = ScannerMain.getScreenTile(1, 5);
 					//TileWriter.writeTile(tile, false);
-					ScreenTile tile2 = ScannerMain.getScreenTile(1, 6);
-					TileWriter.writeTile(tile2, true);
+					//ScreenTile tile2 = ScannerMain.getScreenTile(1, 6);
+					//TileWriter.writeTile(tile2, true);
 				//	WorldTilesMain.addNewTile(tile);
 			//	}
 			//}
