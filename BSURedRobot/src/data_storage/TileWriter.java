@@ -107,7 +107,10 @@ public class TileWriter {
 		File listFile = new File((TileWriter.listLocation));
 		FileWriter fw = new FileWriter(listFile, true);
     	BufferedWriter bw = new BufferedWriter(fw);
-    	bw.write(file.getName()+"\n");
+    	String fileName=file.getName();
+    	fileName =fileName.replace(".txt","");
+    	System.out.println(fileName);
+    	bw.write(fileName+"\n");
     	bw.close();
     	fw.close();
 	}

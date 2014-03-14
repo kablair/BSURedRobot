@@ -33,14 +33,15 @@ public class TileReader {
 		} 
 	}
 	
-	public static int[][][] loadAllTileData() throws IOException
+	public static ArrayList<ScreenTile> loadAllTileData() throws IOException, InvalidTileException
 	{
 		loadTileNameList();
-		int[][][] tileDataList = new int[tileNameList.size()][ScreenTile.getArraysize()] [ScreenTile.getArraysize()];
-		int count =0;
-		while(count<tileNameList.size())
+		ArrayList<ScreenTile> tileDataList = new ArrayList<ScreenTile>();
+		for(int count =0;count<tileNameList.size(); count++)
 		{
-			tileDataList[count] = loadTileData(tileNameList.get(count));
+			int tileData[][] = loadTileData(tileNameList.get(count));
+			ScreenTile tile = new ScreenTile(tileData);
+			tileDataList.add(tile);
 		}
 		
 		return tileDataList;

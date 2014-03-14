@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import maze.MazeFrame;
 import maze.MazeMain;
-import data_storage.DataStorageMain;
+import data_storage.TileDialog;
 import data_storage.TileReader;
 import data_storage.TileWriter;
 import exceptions.InvalidGameColorException;
@@ -25,8 +25,9 @@ public class StartClass {
 	
 	private static void initialize()
 	{
-		DataStorageMain.initialize();
+		TileWriter.initialize();
 		ScannerMain.initialize();
+		WorldTilesMain.initialize();
 	}
 	
 	
@@ -37,11 +38,11 @@ public class StartClass {
 		StartClass.initialize();
 
 		try {
-			//TileWriter.writeTile(ScreenReader.readScreenTile(5, 5), true);
+			FrameMain frame = new FrameMain();
+			//TileDialog dialog = new TileDialog(TileReader.loadTile("grass"));
 			//TileLoader.loadScreen();
-			//ScreenTile tile = ScannerMain.getScreenTile(5, 5);
-			//TileWriter.writeTile(tile,true);
-			ScreenTileTest.testTiles();
+			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
+			TileWriter.writeTile(tile,true);
 			//FrameMain frame = new FrameMain();
 			//MazeMain.openMazeFrame();
 			//for(int y=0; y<ScannerMain.gameHeight; y++)
