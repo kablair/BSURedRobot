@@ -13,7 +13,8 @@ import javax.swing.JTextField;
 
 public class TextPanel extends JPanel {
 	private static final long serialVersionUID = -514877044964482643L;
-		
+	private TileFrame parent;	
+	
 	private JTextArea textArea = new JTextArea();
 	private JScrollPane scrollPane = new JScrollPane(textArea);
 	private JTextField modeField = new JTextField();
@@ -22,8 +23,10 @@ public class TextPanel extends JPanel {
 	BoxLayout boxLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 	FlowLayout flowLayout = new FlowLayout(FlowLayout.LEADING);
 	
+	
 	public TextPanel()
 	{
+		parent=(TileFrame) this.getParent();
 		this.setLayout(boxLayout);
 		this.setPreferredSize(new Dimension(400,400));
 		textArea.setEditable(false);

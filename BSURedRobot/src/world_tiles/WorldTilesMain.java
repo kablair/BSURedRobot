@@ -9,7 +9,7 @@ import scanning.ScreenTile;
 
 public class WorldTilesMain {
 
-	static ArrayList<WorldTile> worldTiles= new ArrayList<WorldTile>();
+	public static ArrayList<WorldTile> worldTiles= new ArrayList<WorldTile>();
 
 	public static void initialize()
 	{
@@ -17,8 +17,8 @@ public class WorldTilesMain {
 			ArrayList<ScreenTile> tileList= TileReader.loadAllTileData();
 			for(ScreenTile screenTile:tileList)
 			{
-				worldTiles.add(new WorldTile(screenTile));
-				//addNewTile(screenTile);
+				WorldTile worldTile =new WorldTile(screenTile);
+				worldTiles.add(worldTile);
 			}
 		} catch (IOException | InvalidTileException e) {
 			e.printStackTrace();
