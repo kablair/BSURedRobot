@@ -51,9 +51,9 @@ public class ScreenReader {
 		int maxCol= ScreenTile.getMaxscreentilecol();
 		int maxRow = ScreenTile.getMaxscreentilerow();
 		ScreenTile[][] screenTiles = new ScreenTile[maxCol][maxRow];
-		for(int y=0; y<maxCol-1; y++)
+		for(int y=0; y<maxCol; y++)
 		{
-			for(int x=0; x<maxRow-1; x++)
+			for(int x=0; x<maxRow; x++)
 			{
 				screenTiles[y][x]=readScreenTile(x, y);
 			}

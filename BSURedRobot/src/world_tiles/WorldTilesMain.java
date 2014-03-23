@@ -38,6 +38,7 @@ public class WorldTilesMain {
 			for(int x=0; x<tiles[0].length; x++)
 			{
 				System.out.println(x+" "+ y);
+				
 				addNewTile(tiles[y][x]);
 			}
 		}
