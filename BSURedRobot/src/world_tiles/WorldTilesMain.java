@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import data_storage.TileReader;
+import data_storage.TileWriter;
 import exceptions.InvalidTileException;
+import exceptions.ScanningDisabledException;
+import scanning.ScannerMain;
 import scanning.ScreenTile;
 
 public class WorldTilesMain {
@@ -27,15 +30,26 @@ public class WorldTilesMain {
 	
 	}
 
+	public static void addNewTiles() throws InvalidTileException, ScanningDisabledException, IOException
+	{
+		ScreenTile tiles [][] = ScannerMain.getScreenTiles();
+		for(int y=0; y<tiles.length; y++)
+		{
+			for(int x=0; x<tiles[0].length; x++)
+			{
+				System.out.println(x+" "+ y);
+				addNewTile(tiles[y][x]);
+			}
+		}
+	}
 	
-	
-	public static void addNewTile(ScreenTile tile) throws InvalidTileException
+	public static void addNewTile(ScreenTile tile) throws InvalidTileException, IOException
 	{
 		boolean equals = false;
 		
 		for(WorldTile worldTile: worldTiles)
 		{
-			if (worldTile.getScreenTile().equals(tile))
+			if (worldTile.getScreenTile().getId() == tile.getId())
 			{
 				equals=true;
 			}
@@ -43,7 +57,10 @@ public class WorldTilesMain {
 		if(!equals)
 		{
 			worldTiles.add(new WorldTile(tile));
+			TileWriter.writeTile(tile, true);
 		}
+		
+		System.out.println(equals);
 		
 	}
 	

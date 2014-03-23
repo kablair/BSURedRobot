@@ -32,21 +32,21 @@ public class ScreenReader {
 //ScreenTiles
 //*************************************************************************************
 	
-	public static BufferedImage readTileImage(int tileRow, int tileCol) throws InvalidTileException
+	static BufferedImage readTileImage(int tileRow, int tileCol) throws InvalidTileException
 	{
 		Rectangle tileRect = ScreenTile.getTileRect(tileRow, tileCol);
 		BufferedImage tileImage = ScreenReader.createScreenCapture(tileRect);
 		return tileImage;
 	}
 	
-	public static ScreenTile readScreenTile(int tileRow, int tileCol) throws InvalidTileException
+	static ScreenTile readScreenTile(int tileRow, int tileCol) throws InvalidTileException
 	{
 		BufferedImage tileImage = readTileImage(tileRow, tileCol);
 		ScreenTile screenTile = new ScreenTile(tileImage);
 		return screenTile;
 	}
 	
-	public static ScreenTile[][] readScreenTiles() throws InvalidTileException
+	static ScreenTile[][] readScreenTiles() throws InvalidTileException
 	{
 		int maxCol= ScreenTile.getMaxscreentilecol();
 		int maxRow = ScreenTile.getMaxscreentilerow();
@@ -61,6 +61,29 @@ public class ScreenReader {
 		return screenTiles;
 	}
 	
+	static long[][] sampleScreenTiles() throws InvalidTileException
+	{
+		int maxCol= ScreenTile.getMaxscreentilecol();
+		int maxRow = ScreenTile.getMaxscreentilerow();
+		long[][] ids = new long [maxCol][maxRow];
+		for(int col=0; col<maxCol; col++)
+		{
+			for(int row=0; row< maxRow; row++)
+			{
+				ids[col][row] = sampleScreenTile(row, col);
+			}
+		}
+		
+		
+		return ids;
+	}
+	
+	static long sampleScreenTile(int tileRow, int tileCol) throws InvalidTileException
+	{
+		BufferedImage tileImage = readTileImage(tileRow, tileCol);
+		ScreenTile screenTile = new ScreenTile(tileImage);
+		return screenTile.getId();
+	}
 	
 //******************************************************************************************
 //Basic Testing Methods

@@ -15,7 +15,6 @@ import scanning.ScannerMain;
 import scanning.ScreenReader;
 import scanning.ScreenTile;
 import tests.ScreenTileTest;
-import tile_processing.TileCompressor;
 import tile_processing.TileLoader;
 import tile_processing.TileProcessingMain;
 import world_tiles.WorldTilesMain;
@@ -41,8 +40,11 @@ public class StartClass {
 			FrameMain frame = new FrameMain();
 			//TileDialog dialog = new TileDialog(TileReader.loadTile("grass"));
 			//TileLoader.loadScreen();
-			ScreenTile tile = ScannerMain.getScreenTile(5, 5);
-			TileWriter.writeTile(tile,true);
+			ScreenTile tile = ScannerMain.getScreenTile(1, 1);
+			ScreenTile tile2 = ScannerMain.getScreenTile(2, 3);
+			//TileWriter.writeTile(tile,true);
+			//TileWriter.writeTile(tile2,true);
+			WorldTilesMain.addNewTiles();
 			//FrameMain frame = new FrameMain();
 			//MazeMain.openMazeFrame();
 			//for(int y=0; y<ScannerMain.gameHeight; y++)
@@ -57,7 +59,7 @@ public class StartClass {
 			//	}
 			//}
 			
-			TileProcessingMain.checkTile();
+			TileProcessingMain.checkTile(tile2);
 	
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

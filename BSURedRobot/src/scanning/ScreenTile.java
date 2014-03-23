@@ -3,6 +3,7 @@ package scanning;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import data_storage.ImageWriter;
 import exceptions.InvalidGameColorException;
@@ -16,8 +17,10 @@ public class ScreenTile {
 	private static final int maxScreenTileCol=8;
 	private static final int tileSize=64;
 	private static final int arraySize=tileSize/4;
+	private static ArrayList<Point> samplePoints = new ArrayList<Point>();
 	private BufferedImage image;
 	private int tileData[][];
+	private long id=-100;
 	//Null image exception?
 	
 
@@ -242,34 +245,81 @@ public class ScreenTile {
 		return string;	
 		
 	}
-
-	public int getId() {
-		int id=0;
-		//sample points
-		int row[] = {11, 2, 7, 8, 10, 5, 0, 2, 9, 4, 6};
-		int col[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-		for(int n=0; n<11; n++)
+	
+	public long getId()
+	{
+		if(id<0)
+		{
+			calculateId();
+		}
+		return id;
+	}
+	
+	private void calculateId() {
+		id=0;
+		if(samplePoints.size()==0)
+		{
+			loadSamplePoints();
+		}
+		if(this.tileData==null)
+		{
+			this.tileData=findTileData(this);
+		}
+		
+		for(int n=0; n<31; n++)
 		{
 			try 
 			{
-				int colNum= col[n];
-				int rowNum= row[n];
+				int colNum= samplePoints.get(n).y;
+				int rowNum= samplePoints.get(n).x;
 				
 				int colorNum = GameColor.getGameColor(tileData[colNum][rowNum]).getId();
-				System.out.println(colorNum);
 				id+=(colorNum)*Math.pow(4, n);
-				//System.out.println(id);
-				System.out.println(colorNum);
+				
 			
 			} 
 			catch (InvalidGameColorException e) {
 				
 			}
-			
-		
 		}
-		return id;
 	}
-
 	
+	private static void loadSamplePoints()
+	{
+		samplePoints.clear();
+		//corners
+		samplePoints.add(new Point(0,0));
+		samplePoints.add(new Point(15,0));
+		samplePoints.add(new Point(0,15));
+		samplePoints.add(new Point(15,15));
+		//row 10
+		samplePoints.add(new Point(9,0));
+		samplePoints.add(new Point(9,4));
+		samplePoints.add(new Point(9,5));
+		samplePoints.add(new Point(9,6));
+		samplePoints.add(new Point(9,8));
+		samplePoints.add(new Point(9,13));
+		//random
+		samplePoints.add(new Point(0,4));
+		samplePoints.add(new Point(0,6));
+		samplePoints.add(new Point(0,10));
+		samplePoints.add(new Point(1,5));
+		samplePoints.add(new Point(1,8));
+		samplePoints.add(new Point(1,10));
+		samplePoints.add(new Point(2,15));
+		samplePoints.add(new Point(3,14));
+		samplePoints.add(new Point(5,8));
+		samplePoints.add(new Point(4,5));
+		samplePoints.add(new Point(6,8));
+		samplePoints.add(new Point(4,10));
+		samplePoints.add(new Point(11,1));
+		samplePoints.add(new Point(2,2));
+		samplePoints.add(new Point(7,3));
+		samplePoints.add(new Point(8,4));
+		samplePoints.add(new Point(10,5));
+		samplePoints.add(new Point(5,6));
+		samplePoints.add(new Point(0,7));
+		samplePoints.add( new Point(2,8));
+		samplePoints.add(new Point(9,9));
+	}
 }

@@ -17,30 +17,8 @@ public class ScannerMain {
 	{
 		gameScreenLocation = new Point();
 		enabled=true;
-		try 
-		{
-		
-			GameScreenLocator.initialize();
-			setGameScreenLocation();
-			
-	//		setScreenTiles();
-//			ScreenTile tile1 = new ScreenTile(4,2);
-//			TileWriter.writeTile(tile1, "oakhead2");
-//			String tileDataOak[][] =TileReader.loadTile("oakhead");
-//			if(tile1.isTileDataEqual(tileDataOak))
-//			{
-//				System.out.println("oak is on screen");
-//			}
-//			else
-//			{
-//				System.out.println("oakhead not found");
-//			}
-			
-		} 
-		catch (GameScreenNotFoundException e) 
-		{	
-			System.out.println(e.getMessage());
-		}
+		GameScreenLocator.initialize();
+		setGameScreenLocation();
 	}
 	
 	public static void deactivate()
@@ -53,10 +31,20 @@ public class ScannerMain {
 		return enabled;
 	}
 
-	public static void setGameScreenLocation() throws GameScreenNotFoundException
+	public static void setGameScreenLocation()
 	{
-		Point location =GameScreenLocator.findGameLocation(); 
+		try 
+		{
+			Point location = GameScreenLocator.findGameLocation();
 			gameScreenLocation.setLocation(location);
+		} 
+		catch (GameScreenNotFoundException e) 
+		{
+			deactivate();
+			e.printStackTrace();
+			System.exit(0);
+		} 
+		
 	}
 	
 	public static ScreenTile[][] getScreenTiles() throws InvalidTileException, ScanningDisabledException
@@ -87,6 +75,19 @@ public class ScannerMain {
 		else throw new ScanningDisabledException("Error: Tried to get screen location when ScannerMain was disabled.");
 	}
 	
+	public static long sampleScreenTile(int tileRow, int tileCol) throws InvalidTileException, ScanningDisabledException
+	{
+		if(isEnabled())
+		return ScreenReader.sampleScreenTile(tileRow, tileCol);
+		else throw new ScanningDisabledException("Error: Tried to get screen data when ScannerMain was disabled.");
+	}
+	
+	public static long[][] sampleScreenTiles() throws InvalidTileException, ScanningDisabledException
+	{
+		if(isEnabled())
+		return ScreenReader.sampleScreenTiles();
+		else throw new ScanningDisabledException("Error: Tried to get screen data when ScannerMain was disabled.");
+	}
 
 	
 }
