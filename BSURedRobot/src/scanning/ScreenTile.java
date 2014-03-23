@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import data_storage.ImageWriter;
+import exceptions.InvalidGameColorException;
 import exceptions.InvalidTileException;
 import exceptions.ScanningDisabledException;
 
@@ -243,8 +244,31 @@ public class ScreenTile {
 	}
 
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		int id=0;
+		//sample points
+		int row[] = {11, 2, 7, 8, 10, 5, 0, 2, 9, 4, 6};
+		int col[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+		for(int n=0; n<11; n++)
+		{
+			try 
+			{
+				int colNum= col[n];
+				int rowNum= row[n];
+				
+				int colorNum = GameColor.getGameColor(tileData[colNum][rowNum]).getId();
+				System.out.println(colorNum);
+				id+=(colorNum)*Math.pow(4, n);
+				//System.out.println(id);
+				System.out.println(colorNum);
+			
+			} 
+			catch (InvalidGameColorException e) {
+				
+			}
+			
+		
+		}
+		return id;
 	}
 
 	
