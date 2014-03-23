@@ -9,8 +9,11 @@ import exceptions.InvalidGameColorException;
  */
 public enum GameColor {
 
-	gameWhite(231, 214, 156), gameGrey(181, 165, 107), gameDarkGrey(123, 115,
-			99), gameBlack(57, 57, 41);
+//	gameWhite(231, 214, 156), gameGrey(181, 165, 107), gameDarkGrey(123, 115,
+//			99), gameBlack(57, 57, 41);
+	
+	gameWhite(248, 248, 248), gameGrey(168, 168, 168), gameDarkGrey(96, 96,
+			96), gameBlack(0, 0, 0);
 
 	private final Color color;
 	private final int rgb;
