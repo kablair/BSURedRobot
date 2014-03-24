@@ -14,7 +14,7 @@ public class MazeFrame extends JFrame implements KeyListener{
 	
 	private static MazePanel mazePanel;
 	
-	public MazeFrame()
+	MazeFrame()
 	{
 		mazePanel = new MazePanel();
 		this.setTitle("Maze View");

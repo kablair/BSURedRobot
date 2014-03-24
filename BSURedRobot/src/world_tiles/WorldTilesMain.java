@@ -17,15 +17,21 @@ public class WorldTilesMain {
 	public static void initialize()
 	{
 		try {
-			ArrayList<ScreenTile> tileList= TileReader.loadAllTileData();
-			for(ScreenTile screenTile:tileList)
-			{
-				WorldTile worldTile =new WorldTile(screenTile);
-				worldTiles.add(worldTile);
-			}
+			TileReader.loadWorldTileData();
 		} catch (IOException | InvalidTileException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//		try {
+//			ArrayList<ScreenTile> tileList= TileReader.loadAllTileData();
+//			for(ScreenTile screenTile:tileList)
+//			{
+//				WorldTile worldTile =new WorldTile(screenTile);
+//				worldTiles.add(worldTile);
+//			}
+//		} catch (IOException | InvalidTileException e) {
+//			e.printStackTrace();
+//		}
 		
 	
 	}

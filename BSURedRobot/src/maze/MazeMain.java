@@ -18,11 +18,7 @@ public class MazeMain {
 			for(int x=0; x<mazeWidth; x++)
 			{
 				maze [y][x]=MazeTile.unknown;
-				
-				if(Math.random()<0.8)
-				hiddenMaze [y][x]=MazeTile.path;
-				else
-				hiddenMaze [y][x]=MazeTile.wall;
+				hiddenMaze[y][x]=randomTile();
 			}
 		}
 		MazeSolver.initialize(maze);

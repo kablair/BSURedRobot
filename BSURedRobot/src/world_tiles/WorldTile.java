@@ -27,7 +27,7 @@ public class WorldTile {
 	{
 		//default: "other" type
 		tileType=tileTypes.length-1;
-		
+		System.out.println("bob".contains("bo")+ " hi");
 		for(int n=0; n<tileTypes.length; n++)
 		{
 			if(name.contains(tileTypes[n]))

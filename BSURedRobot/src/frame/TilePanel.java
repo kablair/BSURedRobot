@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import scanning.ScreenTile;
+import world_tiles.WorldTile;
 import world_tiles.WorldTilesMain;
 
 public class TilePanel extends JPanel implements ActionListener{
@@ -33,6 +34,7 @@ public class TilePanel extends JPanel implements ActionListener{
 	private JButton bigForward;
 	private JButton bigBackward;
 	private ScreenTile tile;
+	private String nameText;
 
 	
 
@@ -55,7 +57,7 @@ public class TilePanel extends JPanel implements ActionListener{
 		this.add(tileId);
 		image= tile.getImage();
 		this.add(new ImagePanel(image));
-		name= new JTextField("Name");
+		name= new JTextField(nameText);
 		name.setEditable(false);
 		name.setBorder(null);
 		name.setHorizontalAlignment(JTextField.CENTER);
@@ -66,6 +68,8 @@ public class TilePanel extends JPanel implements ActionListener{
 	private void loadTile()
 	{
 		tile=WorldTilesMain.worldTiles.get(TileFrame.getIndex()).getScreenTile();
+		int tileType=WorldTilesMain.worldTiles.get(TileFrame.getIndex()).getTileType();
+		nameText= WorldTile.tileTypes[tileType];
 	}
 	
 	

@@ -27,6 +27,7 @@ public class StartClass {
 		TileWriter.initialize();
 		ScannerMain.initialize();
 		WorldTilesMain.initialize();
+		MazeMain.initialize();
 	}
 	
 	
@@ -38,6 +39,7 @@ public class StartClass {
 
 		try {
 			FrameMain frame = new FrameMain();
+			MazeMain.openMazeFrame();
 			//TileDialog dialog = new TileDialog(TileReader.loadTile("grass"));
 			//TileLoader.loadScreen();
 			ScreenTile tile = ScannerMain.getScreenTile(1, 1);
