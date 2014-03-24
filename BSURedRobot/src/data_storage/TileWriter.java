@@ -8,10 +8,9 @@ import java.io.IOException;
 import scanning.ScreenTile;
 
 public class TileWriter {
-
-	private static int count=0;
 	private static final String location=System.getProperty("user.dir")+"/tileData/";
 	private static final String listLocation= location+"tileList.txt";
+	private static final String base= "sample";
 	
 	
 	/**
@@ -52,24 +51,23 @@ public class TileWriter {
 		
 		else
 		{	
-			writeTile(tile, generateFileName());
+			writeTile(tile, generateFileName(base));
 		}
 		
 	}
 	
 	/**Writes a tile Document for a named tile*/
-	public static void writeTile(ScreenTile tile, String tileName) throws IOException
+	public static void writeTile(ScreenTile tile, String base) throws IOException
 	{
+		String tileName = generateFileName(base);
 		String fileLocation=location+tileName+".txt";
 		File file =new File(fileLocation);
 		
-		if(!file.exists()){
-			file.createNewFile();
-			recordTileName(file);
-	    	recordTileData(file, tile);
-		}
-		else
-			System.out.println("File already exists");
+		file.createNewFile();
+		recordTileName(file);
+	    recordTileData(file, tile);
+		
+	
 		
 	}
 	
@@ -121,11 +119,11 @@ public class TileWriter {
 	 * Integers start at 1.<p>
 	 * Example: base1, base12, base100.
 	 */
-	private static String generateFileName()
+	private static String generateFileName(String base)
 	{
+		int count=0;
 		File file;
 		String name;
-		String base="sample";
 		do
 		{
 			count++;

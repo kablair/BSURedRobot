@@ -1,20 +1,22 @@
 package data_storage;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import scanning.ScreenTile;
-import exceptions.InvalidTileException;
+import world_tiles.WorldTile;
 import frame.ImagePanel;
 
 
@@ -43,8 +45,10 @@ public class TileDialog extends JDialog implements ActionListener{
 	private BufferedImage image;
 	//TODO try getting rid of this
 	private String tileName;
-	private JTextField dialogTextField;
+	//private JTextField dialogTextField;
 	private JButton submitButton;
+	private JComboBox<String> comboBox;
+	private JCheckBox checkbox;
 
 	public TileDialog(ScreenTile tile)
 	{
@@ -80,20 +84,34 @@ public class TileDialog extends JDialog implements ActionListener{
 	{
 		dialogPanel = new JPanel();
 		dialogPanel.setLayout(null);
-		JLabel dialogLabel = new JLabel("Enter a name for this tile.");
+		JLabel dialogLabel = new JLabel("Identify this tile.");
 		dialogLabel.setBounds(77, 5, 200, 30);
 		imagePanel= new ImagePanel(image);
 		imagePanel.setBounds(3,5, 65,70 );
-		dialogTextField = new JTextField();
-		dialogTextField.setBounds(78, 55, 122, 20);
+		String comboStrings[] = WorldTile.tileTypes;
+		comboBox = new JComboBox<String>(comboStrings);
+		comboBox.setBounds(78, 55, 122, 20);
+		//{"Wall","Path","Door","Grass", "Ledge"}
+		JLabel dialogLabel2 = new JLabel("Is partially obstructed");
+		dialogLabel2.setBounds(100, 30, 150, 20);
+		dialogLabel2.setFont(new Font(dialogLabel2.getFont().getName(), Font.PLAIN, 11));
+		checkbox= new JCheckBox();
+		checkbox.setBounds(76, 31, 18, 18);
+		//dialogTextField = new JTextField();
+		//dialogTextField.setBounds();
+		//(78, 55, 122, 20);
 		submitButton = new JButton("Submit");
 		submitButton.setBounds(220, 55, 75, 20);
+		//(220, 55, 75, 20);
 		submitButton.addActionListener(this);
 		submitButton.setActionCommand(submitAction);
 		dialogPanel.add(dialogLabel);
+		dialogPanel.add(dialogLabel2);
 		dialogPanel.add(imagePanel);
-		dialogPanel.add(dialogTextField);
+		//dialogPanel.add(dialogTextField);
 		dialogPanel.add(submitButton);
+		dialogPanel.add(comboBox);
+		dialogPanel.add(checkbox);
 		
 	}
 
@@ -102,7 +120,14 @@ public class TileDialog extends JDialog implements ActionListener{
 		
 		if(e.getActionCommand().equals(submitAction))
 		{
-			tileName=dialogTextField.getText();
+			tileName= (String) comboBox.getSelectedItem();
+			
+			if(checkbox.isSelected())
+			{
+				tileName = tileName + WorldTile.obstruction;
+			}
+			
+			
 			System.out.println(tileName);
 			try 
 			{

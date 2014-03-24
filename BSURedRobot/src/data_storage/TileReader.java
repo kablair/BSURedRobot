@@ -9,10 +9,12 @@ import java.util.ArrayList;
 
 import exceptions.InvalidTileException;
 import scanning.ScreenTile;
+import world_tiles.WorldTile;
+import world_tiles.WorldTilesMain;
 
 public class TileReader {
 	
-	public static ArrayList<String> tileNameList = new ArrayList<String>();
+	 private static ArrayList<String> tileNameList = new ArrayList<String>();
 	
 	
 	private static void loadTileNameList() throws IOException
@@ -45,6 +47,22 @@ public class TileReader {
 		}
 		
 		return tileDataList;
+	}
+	
+	public static void loadWorldTileData() throws IOException, InvalidTileException
+	{
+		loadTileNameList();
+		for(int count =0;count<tileNameList.size(); count++)
+		{
+			String name =tileNameList.get(count);
+			int tileData[][] = loadTileData(name);
+			ScreenTile tile = new ScreenTile(tileData);
+			WorldTile worldTile =new WorldTile(tile);
+			worldTile.identify(name);
+			WorldTilesMain.worldTiles.add(worldTile);
+		}
+		
+		
 	}
 	
 	
